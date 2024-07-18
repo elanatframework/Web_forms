@@ -52,17 +52,17 @@ aoSelectInput=OptionValue|Option Text|1
 al(InputName)=My Input Title
 ```
 
-Line 1: `as<body>=background-color:green`
+- Line 1: `as<body>=background-color:green`
 Here, the first two characters are `as`, which means adding a style, and then it is specified that it will be applied to the `body` tag, and after the equal character (`=`), the style attribute is specified.
-Line 2: `saCheckBoxInput=onchange|MyNewFunc()`
+- Line 2: `saCheckBoxInput=onchange|MyNewFunc()`
 Here, the first two characters are `sa`, which means adding an attribute, and then it is specified that it will be applied to a tag with the id `CheckBoxInput`, and after the equal character (`=`), the name and value of the attribute is specified, which is specified by the character (`|`) are separated.
-Line 3: `deMyTagId=1`
+- Line 3: `deMyTagId=1`
 Here, the first two characters are `de`, which means to delete the tag, and then it is determined that it will be applied to a tag with the id `MyTagId`, and after the equal character (`=`) there is a value of `1`, which means to apply deletion.
-Line 4: `ta<i>2=right`
+- Line 4: `ta<i>2=right`
 Here, the first two characters are `ta`, which means text align, and then it is determined that it will be applied to a third tag named `li`, and after the equal character (`=`) there is a value of right which means right to left.
-Line 5: `aoSelectInput=OptionValue|Option Text|1`
+- Line 5: `aoSelectInput=OptionValue|Option Text|1`
 Here, the first two characters are `ao`, which means adding the option tag, and then it is specified that it will be applied to a tag with the id name `SelectInput`, and after the equal character (`=`), the option value is placed, and after the character (`|`) option text is placed and at the end after the (`|`) character is the number `1`, which means that the option is active (`checked`).
-line 6: `al(InputName)=My Input Title`
+- Line 6: `al(InputName)=My Input Title`
 Here, the first two characters are `al`, which means adding a title, and then it is specified that it will be applied to a tag named `InputName`, and after the equal character (`=`), the title text is specified.
 
 ## Explanation of the action controls
