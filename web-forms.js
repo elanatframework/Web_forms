@@ -1,4 +1,4 @@
-﻿/* WebFormsJS - Providing Infrastructure For Web Controls In CodeBehind Framework Owned By Elanat (elanat.net) */
+/* WebFormsJS - Providing Infrastructure For Web Controls In CodeBehind Framework Owned By Elanat (elanat.net) */
 
 /* Start Options */
 
@@ -168,6 +168,93 @@ function PostBack(obj, ViewState)
 }
 
 /* End Post-Back */
+
+/* Start Get-Back */
+
+function GetBack(FormAction, ViewState)
+{
+    var FormMethod = (PostBackOptions.SendDataOnlyByPostMethod) ? "POST" : "GET";
+
+    if (FormAction)
+    {
+        if (typeof FormAction === "object")
+        {
+            // Set Form Value
+            var Form = FormAction;
+            do
+            {
+                if (!Form.parentNode)
+                    return;
+
+                Form = Form.parentNode;
+            }
+            while (Form.nodeName.toLowerCase() != "form");
+
+            if (Form.nodeName.toLowerCase() != "form")
+                if (body.getElementsByTagName("form").length > 0)
+                    Form = body.getElementsByTagName("form")[0];
+
+            FormMethod = (Form.hasAttribute("method") && !PostBackOptions.SendDataOnlyByPostMethod) ? Form.getAttribute("method") : "POST" ;
+            FormAction = Form.getAttribute("action");
+        }
+    }
+    else
+        FormAction = "";
+
+    var XMLHttp = new XMLHttpRequest();
+    XMLHttp.onreadystatechange = function ()
+    {
+        if (XMLHttp.readyState == 4 && XMLHttp.status == 200)
+        {
+            var HttpResult = XMLHttp.responseText;
+            var IsWebForms = false;
+
+            // Check Exist WebForms Values
+            if (HttpResult.length >= 11)
+                if (HttpResult.substring(0, 11) == "[web-forms]")
+                    IsWebForms = true;
+
+            if (IsWebForms)
+                cb_SetWebFormsValues(HttpResult, true);
+            else
+            {
+                var TmpDiv = document.createElement("div");
+                TmpDiv.appendChild(HttpResult.toDOM());
+                cb_AppendJavaScriptTag(HttpResult);
+
+                if (ViewState)
+                    PostBackOptions.ResponseLocation.prepend(TmpDiv);
+                else
+                    PostBackOptions.ResponseLocation.innerHTML = TmpDiv.outerHTML;
+
+                Form.focus();
+            }
+        }
+    }
+
+    XMLHttp.onerror = function ()
+    {
+        if (XMLHttp.status != 0 && (XMLHttp.readyState == 0 || XMLHttp.status > 200))
+        {
+            if (PostBackOptions.UseConnectionErrorMessage)
+            {
+                var BErrorTag = document.createElement("b");
+                BErrorTag.innerText = "Connection Error";
+                document.body.prepend(BErrorTag);
+            }
+        }
+    }
+
+    XMLHttp.open(FormMethod, FormAction, true);
+
+    XMLHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    XMLHttp.setRequestHeader("Post-Back", "true");
+
+    XMLHttp.send();
+}
+
+/* End Get-Back */
 
 function cb_FormDataSerialize(form, TagSubmitName, TagSubmitValue, FormIsMultiPart)
 {       
