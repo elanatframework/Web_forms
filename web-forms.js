@@ -14,12 +14,12 @@ PostBackOptions.ResponseLocation = document.body;
 
 /* Start Event */
 
-function SetPostBackFunctionToSubmit()
+function SetPostBackFunctionToSubmit(obj)
 {
     if (!PostBackOptions.AutoSetSubmitOnClick)
         return;
 
-    const SubmitInputs = document.querySelectorAll('input[type="submit"]');
+    const SubmitInputs = (obj) ? obj.querySelectorAll('input[type="submit"]') : document.querySelectorAll('input[type="submit"]');
 
     SubmitInputs.forEach(function (InputElement)
     {
@@ -122,9 +122,15 @@ function PostBack(obj, ViewState)
                 cb_AppendJavaScriptTag(HttpResult);
 
                 if (ViewState)
+                {
                     PostBackOptions.ResponseLocation.prepend(TmpDiv);
+                    SetPostBackFunctionToSubmit(PostBackOptions.ResponseLocation.getElementsByTagName("div")[0]);
+                }
                 else
+                {
                     PostBackOptions.ResponseLocation.innerHTML = TmpDiv.outerHTML;
+                    SetPostBackFunctionToSubmit(PostBackOptions.ResponseLocation);
+                }
 
                 Form.focus();
             }
@@ -223,9 +229,15 @@ function GetBack(FormAction, ViewState)
                 cb_AppendJavaScriptTag(HttpResult);
 
                 if (ViewState)
+                {
                     PostBackOptions.ResponseLocation.prepend(TmpDiv);
+                    SetPostBackFunctionToSubmit(PostBackOptions.ResponseLocation.getElementsByTagName("div")[0]);
+                }
                 else
+                {
                     PostBackOptions.ResponseLocation.innerHTML = TmpDiv.outerHTML;
+                    SetPostBackFunctionToSubmit(PostBackOptions.ResponseLocation);
+                }
 
                 Form.focus();
             }
@@ -657,7 +669,10 @@ function cb_SetValueToInput(ActionOperation, ActionFeature, ActionValue)
                         CurrentElement.outerHTML = CurrentElement.outerHTML + LabelTag.outerHTML;
                     }
                     break;
-                case 't': CurrentElement.innerHTML = CurrentElement.innerHTML + Value.Replace("$[ln];", "\n").toDOM(); break;
+                case 't':
+                    CurrentElement.innerHTML = CurrentElement.innerHTML + Value.Replace("$[ln];", "\n").toDOM();
+                    SetPostBackFunctionToSubmit(CurrentElement);
+                    break;
                 case 'a':
                     var AttrName = Value.GetTextBefore("|");
                     var AttrValue = Value.GetTextAfter("|");
@@ -747,7 +762,7 @@ function cb_SetValueToInput(ActionOperation, ActionFeature, ActionValue)
                         CurrentElement.setAttribute("style", Value);
                     break;
                 case 'o':
-                    if ((ActionOperation == 'i') && (CurrentElement.querySelectorAll('option[value="' + Value.GetTextBefore("|") + ' "]')))
+                    if ((ActionOperation == 'i') && (CurrentElement.querySelectorAll('option[value="' + Value.GetTextBefore("|") + ' "]').length > 0))
                         break;
 
                     var OptionTag = document.createElement("option");
@@ -771,7 +786,7 @@ function cb_SetValueToInput(ActionOperation, ActionFeature, ActionValue)
                         break;
                     }
 
-                    if ((ActionOperation == 'i') && (CurrentElement.querySelectorAll('input[type="checkbox"][value="' + Value.GetTextBefore("|") + '"]')))
+                    if ((ActionOperation == 'i') && (CurrentElement.querySelectorAll('input[type="checkbox"][value="' + Value.GetTextBefore("|") + '"]').length > 0))
                         break;
 
                     var CheckBoxTag = document.createElement("input");
@@ -848,7 +863,9 @@ function cb_SetValueToInput(ActionOperation, ActionFeature, ActionValue)
                     if ((ActionOperation == 'i') && (CurrentElement.innerHTML || CurrentElement.innerText))
                         break;
 
-                    CurrentElement.innerHTML = Value.Replace("$[ln];", "\n").toDOM(); break;
+                    CurrentElement.innerHTML = Value.Replace("$[ln];", "\n").toDOM();
+                    SetPostBackFunctionToSubmit(CurrentElement);
+                    break;
                 case 'a':
                     var AttrName = Value.GetTextBefore("|");
                     var AttrValue = Value.GetTextAfter("|");
@@ -896,13 +913,18 @@ function cb_SetValueToInput(ActionOperation, ActionFeature, ActionValue)
                         CurrentElement.setAttribute("style", StyleAttr);
                     }
                     break;
-                case 'o': CurrentElement.querySelectorAll('option[value="' + Value + '"]')[0].outerHTML = ""; break;
+                case 'o':
+                    if (CurrentElement.querySelectorAll('option[value="' + Value + '"]').length > 0)
+                        CurrentElement.querySelectorAll('option[value="' + Value + '"]')[0].outerHTML = "";
+                    break;
                 case 'k':
-                    var CheckBoxTag = CurrentElement.querySelectorAll('input[type="checkbox"][value="' + Value + '"]')[0];
-                    if (CheckBoxTag)
+                    var CheckBoxTagLength = CurrentElement.querySelectorAll('input[type="checkbox"][value="' + Value + '"]').length;
+                    if (CheckBoxTagLength > 0)
                     {
+                        var CheckBoxTag = CurrentElement.querySelectorAll('input[type="checkbox"][value="' + Value + '"]')[0];
                         if (CheckBoxTag.id)
-                            CurrentElement.querySelectorAll('label[for="' + CheckBoxTag.id + '"]')[0].outerHTML = "";
+                            if (CurrentElement.querySelectorAll('label[for="' + CheckBoxTag.id + '"]').length > 0)
+                                CurrentElement.querySelectorAll('label[for="' + CheckBoxTag.id + '"]')[0].outerHTML = "";
 
                         CheckBoxTag.outerHTML = "";
                     }
@@ -961,9 +983,9 @@ function cb_SetValueToInput(ActionOperation, ActionFeature, ActionValue)
         case "ks":
             var CheckBoxValue = Value.GetTextBefore("|");
             var CheckBoxChecked = Value.GetTextAfter("|");
-            var CheckBoxTag = CurrentElement.querySelectorAll('input[type="checkbox"][value="' + CheckBoxValue + '"]')[0];
-            if (CheckBoxTag)
-                CheckBoxTag.checked = (CheckBoxChecked == "1");
+            var CheckBoxTagLength = CurrentElement.querySelectorAll('input[type="checkbox"][value="' + CheckBoxValue + '"]').length;
+            if (CheckBoxTagLength > 0)
+                CurrentElement.querySelectorAll('input[type="checkbox"][value="' + CheckBoxValue + '"]')[0].checked = (CheckBoxChecked == "1");
             break;
         case "ki":
             var CheckBoxIndex = Value.GetTextBefore("|");
