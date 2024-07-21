@@ -14,7 +14,7 @@ PostBackOptions.ResponseLocation = document.body;
 
 /* Start Event */
 
-function SetPostBackFunctionToSubmit(obj)
+function cb_SetPostBackFunctionToSubmit(obj)
 {
     if (!PostBackOptions.AutoSetSubmitOnClick)
         return;
@@ -45,7 +45,7 @@ function SetPostBackFunctionToSubmit(obj)
 }
 window.onload = function ()
 {
-    SetPostBackFunctionToSubmit()
+    cb_SetPostBackFunctionToSubmit()
 };
 
 /* End Event */
@@ -124,12 +124,12 @@ function PostBack(obj, ViewState)
                 if (ViewState)
                 {
                     PostBackOptions.ResponseLocation.prepend(TmpDiv);
-                    SetPostBackFunctionToSubmit(PostBackOptions.ResponseLocation.getElementsByTagName("div")[0]);
+                    cb_SetPostBackFunctionToSubmit(PostBackOptions.ResponseLocation.getElementsByTagName("div")[0]);
                 }
                 else
                 {
                     PostBackOptions.ResponseLocation.innerHTML = TmpDiv.outerHTML;
-                    SetPostBackFunctionToSubmit(PostBackOptions.ResponseLocation);
+                    cb_SetPostBackFunctionToSubmit(PostBackOptions.ResponseLocation);
                 }
 
                 Form.focus();
@@ -231,12 +231,12 @@ function GetBack(FormAction, ViewState)
                 if (ViewState)
                 {
                     PostBackOptions.ResponseLocation.prepend(TmpDiv);
-                    SetPostBackFunctionToSubmit(PostBackOptions.ResponseLocation.getElementsByTagName("div")[0]);
+                    cb_SetPostBackFunctionToSubmit(PostBackOptions.ResponseLocation.getElementsByTagName("div")[0]);
                 }
                 else
                 {
                     PostBackOptions.ResponseLocation.innerHTML = TmpDiv.outerHTML;
-                    SetPostBackFunctionToSubmit(PostBackOptions.ResponseLocation);
+                    cb_SetPostBackFunctionToSubmit(PostBackOptions.ResponseLocation);
                 }
 
                 Form.focus();
@@ -671,7 +671,7 @@ function cb_SetValueToInput(ActionOperation, ActionFeature, ActionValue)
                     break;
                 case 't':
                     CurrentElement.innerHTML = CurrentElement.innerHTML + Value.Replace("$[ln];", "\n").toDOM();
-                    SetPostBackFunctionToSubmit(CurrentElement);
+                    cb_SetPostBackFunctionToSubmit(CurrentElement);
                     break;
                 case 'a':
                     var AttrName = Value.GetTextBefore("|");
@@ -864,7 +864,7 @@ function cb_SetValueToInput(ActionOperation, ActionFeature, ActionValue)
                         break;
 
                     CurrentElement.innerHTML = Value.Replace("$[ln];", "\n").toDOM();
-                    SetPostBackFunctionToSubmit(CurrentElement);
+                    cb_SetPostBackFunctionToSubmit(CurrentElement);
                     break;
                 case 'a':
                     var AttrName = Value.GetTextBefore("|");
