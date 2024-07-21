@@ -1039,8 +1039,6 @@ String.prototype.FullTrim = function ()
     return this.trim().replace(/^\s\n+|\s\n+$/g, '');
 };
 
-
-
 String.prototype.IsInput = function ()
 {
     var TagName = this.toLowerCase();
