@@ -161,8 +161,8 @@ After the first two characters, there are 6 status types that define the tag:
 - By `name`: Identifies the tag based on the `name` attribute. It is placed in open and closed parentheses (`(Name)`), and if a number is placed after it, it specifies the index, and then the (`=`) character is placed after it.
 - Based on the `tag name`: Based on the `tag name`, it recognizes the tag. It is placed inside the smaller and larger signs (`<tag name>)`), and if a number is placed after it, it specifies the index, and then the (`=`) character is placed after it.
 - Based on `class name`: Identifies the tag based on the `class name`. It is placed in open and closed brackets (`{class name}`), and if a number is placed after it, it specifies the index, and then the character (`=`) is placed after it.
-- Based on `query`: Identifies the tag based on the `query`. The query string is placed after the (`*`) character , and then the character (`=`) is placed after it.
-- Based on `query all`: It applies to multiple tags and identifies tags based on "query". The query string is placed after the (`[`) character , and then the character (`=`) is placed after it.
+- Based on `query`: Identifies the tag based on the `query`. The query string is placed after the (`*`) character , and then the character (`=`) is placed after it. If there are equal characters (`=`) in the query value, they should be replaced by `$[eq];` string.
+- Based on `query all`: It applies to multiple tags and identifies tags based on "query". The query string is placed after the (`[`) character , and then the character (`=`) is placed after it. If there are equal characters (`=`) in the query value, they should be replaced by `$[eq];` string.
 
 > Note: By default, the indexes of the `name`, `class name`, and `tag name` are set to `0`.
 
