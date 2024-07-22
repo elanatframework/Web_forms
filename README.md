@@ -151,7 +151,7 @@ The following will remove the current values:
 - da: **Delete Attribute** - Value: `Attribute`
 - de: **Delete Tag** - Value: `1`
 
-**Increase**
+### Increase
 
 The following increment the current numeric values:
 
@@ -162,7 +162,7 @@ The following increment the current numeric values:
 - +h: **Increase Height** - Value: `Number`
 - +v: **Increase Value** - Value: `Number`
 
-**Descrease**
+### Descrease
 
 The following decrease the current numerical values:
 
