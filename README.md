@@ -113,6 +113,7 @@ The following replaces the existing values:
 - vi: **Set Visible** - Value: `1 or 0`
 - ta: **Set Text Align** - Value: `Align`
 - sr: **Set Read Only** - Value: `1 or 0`
+- sd: **Set Disabled** - Value: `1 or 0`
 - mn: **Set Min Length** - Value: `Length`
 - mx: **Set Max Length** - Value: `Length`
 - ts: **Set Selected Value** - Value: `Value`
@@ -150,6 +151,27 @@ The following will remove the current values:
 - da: **Delete Attribute** - Value: `Attribute`
 - de: **Delete Tag** - Value: `1`
 
+**Increase**
+
+The following increment the current numeric values:
+
+- +n: **Increase Minimum Length** - Value: `Number`
+- +x: **Increase Maximum Length** - Value: `Number`
+- +f: **Increase Font Size** - Value: `Number`
+- +w: **Increase Width** - Value: `Number`
+- +h: **Increase Height** - Value: `Number`
+- +v: **Increase Value** - Value: `Number`
+
+**Descrease**
+
+The following decrease the current numerical values:
+
+- -n: **Descrease Minimum Length** - Value: `Number`
+- -x: **Descrease Maximum Length** - Value: `Number`
+- -f: **Descrease Font Size** - Value: `Number`
+- -w: **Descrease Width** - Value: `Number`
+- -h: **Descrease Height** - Value: `Number`
+- -v: **Descrease Value** - Value: `Number`
 
 > Note: Action controls are executed sequentially; if an action control decides to change an `id` attribute from a tag, subsequent action controls cannot perform actions with the previous `id` attribute.
 
