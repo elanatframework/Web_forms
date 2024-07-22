@@ -71,7 +71,7 @@ Action controls are received in the form of an INI file format. In the first lin
 
 The first two characters determine the action code. For example, things like adding styles and removing tags can be obtained from action codes. The first two letters stand for actions and indicate that an action must be performed.
 
-After the first two letters, there are 4 status types that specify the tag. Then the equal character is placed and after that the values ​​are placed.
+After the first two letters, there are 6 status types that specify the tag. Then the equal character is placed and after that the values ​​are placed.
 
 Below is the list of all action codes:
 
@@ -88,6 +88,7 @@ The following items are added to the available amount:
 - al: **Add Title** - Value: `Title`
 - at: **Add Text** - Value: `Text` (string value `$[ln];` it replaces by `\n` character)
 - aa: **Add Attribute** - Value: `Attribute|Value`
+- nt: **Add Tag** - Value: `TagName|Id`
 
 ### Set
 
@@ -150,18 +151,20 @@ The following will remove the current values:
 - de: **Delete Tag** - Value: `1`
 
 
-Note: Action controls are executed sequentially; if an action control decides to change an `id` attribute from a tag, subsequent action controls cannot perform actions with the previous `id` attribute.
+> Note: Action controls are executed sequentially; if an action control decides to change an `id` attribute from a tag, subsequent action controls cannot perform actions with the previous `id` attribute.
 
 ## Define the tag
 
-After the first two characters, there are 4 status types that define the tag:
+After the first two characters, there are 6 status types that define the tag:
 
 - Based on `id`: Based on the name of the `id`, it recognizes the tag and the character (`=`) is placed immediately after it.
-- By `name`: Identifies the tag based on the `name` attribute. It is placed in open and closed parentheses (`(Name)`), and if a number is placed after it, it specifies the index, and then the = character is placed after it.
-- Based on the `tag name`: Based on the `tag name`, it recognizes the tag. It is placed inside the smaller and larger signs (`<tag name>)`), and if a number is placed after it, it specifies the index, and then the = character is placed after it.
-- Based on `class name`: Identifies the tag based on the `class name`. It is placed in open and closed brackets (`{class name}`), and if a number is placed after it, it specifies the index, and then the character = is placed after it.
+- By `name`: Identifies the tag based on the `name` attribute. It is placed in open and closed parentheses (`(Name)`), and if a number is placed after it, it specifies the index, and then the (`=`) character is placed after it.
+- Based on the `tag name`: Based on the `tag name`, it recognizes the tag. It is placed inside the smaller and larger signs (`<tag name>)`), and if a number is placed after it, it specifies the index, and then the (`=`) character is placed after it.
+- Based on `class name`: Identifies the tag based on the `class name`. It is placed in open and closed brackets (`{class name}`), and if a number is placed after it, it specifies the index, and then the character (`=`) is placed after it.
+- Based on `query`: Identifies the tag based on the `query`. The query string is placed after the (`*`) character , and then the character (`=`) is placed after it.
+- Based on `query all`: It applies to multiple tags and identifies tags based on "query". The query string is placed after the (`[`) character , and then the character (`=`) is placed after it.
 
-Note: By default, the indexes of the `name`, `class name`, and `tag name` are set to `0`.
+> Note: By default, the indexes of the `name`, `class name`, and `tag name` are set to `0`.
 
 Example: Action control with the value `de<li>=1` is not different from the value `de<li>0=1`.
 
