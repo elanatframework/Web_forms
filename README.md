@@ -190,6 +190,13 @@ After the first two characters, there are 6 status types that define the tag:
 
 Example: Action control with the value `de<li>=1` is not different from the value `de<li>0=1`.
 
+You can also specify the desired tag nested (query all is not supported in this case).
+
+Example:
+`at>{my-class}1|<u>|<li>2=My text string`
+
+In the example above, the `My text string` is placed inside the third `li` tag which is inside the first `ul` tag, and the ul tag itself is a tag inside the tag whose class is equal to the value of `my-class`.
+
 ## Responding
 
 WebFormsJS has a different approach to responding to the first page request in the browser and AJAX requests when the page is already loaded and the user makes a request.
