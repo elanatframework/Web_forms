@@ -1256,7 +1256,7 @@ String.prototype.ContainsWithSpliter = function (Text, Spliter)
 
 String.prototype.ContainsNameWithSpliter = function (Text, Spliter, SpliterNameValue)
 {
-    return (Spliter + this + SpliterNameValue).indexOf(Spliter + Text + SpliterNameValue) !== -1;
+    return (Spliter + this).indexOf(Spliter + Text + SpliterNameValue) !== -1;
 };
 
 String.prototype.Replace = function (SearchValue, ReplaceValue)
