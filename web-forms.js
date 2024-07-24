@@ -130,7 +130,10 @@ function PostBack(obj, ViewState)
 
                 if (ViewState)
                 {
-                    PostBackOptions.ResponseLocation.prepend(TmpDiv);
+                    if (typeof ViewState === "string")
+                        cb_GetElementByElementPlace(ViewState).innerHTML = TmpDiv.outerHTML;
+                    else
+                        PostBackOptions.ResponseLocation.prepend(TmpDiv);
                     cb_SetPostBackFunctionToSubmit(PostBackOptions.ResponseLocation.getElementsByTagName("div")[0]);
                 }
                 else
@@ -237,7 +240,10 @@ function GetBack(FormAction, ViewState)
 
                 if (ViewState)
                 {
-                    PostBackOptions.ResponseLocation.prepend(TmpDiv);
+                    if (typeof ViewState === "string")
+                        cb_GetElementByElementPlace(ViewState).innerHTML = TmpDiv.outerHTML;
+                    else
+                        PostBackOptions.ResponseLocation.prepend(TmpDiv);
                     cb_SetPostBackFunctionToSubmit(PostBackOptions.ResponseLocation.getElementsByTagName("div")[0]);
                 }
                 else
