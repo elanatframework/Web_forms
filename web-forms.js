@@ -8,7 +8,12 @@ PostBackOptions.UseConnectionErrorMessage = true;
 PostBackOptions.ConnectionErrorMessage = "Connection Error";
 PostBackOptions.AutoSetSubmitOnClick = true;
 PostBackOptions.SendDataOnlyByPostMethod = false;
-PostBackOptions.ResponseLocation = document.body;
+PostBackOptions.ResponseLocation = null;
+
+function cb_SetResponseLocation()
+{
+	PostBackOptions.ResponseLocation = document.body;
+}
 
 /* End Options */
 
@@ -43,9 +48,11 @@ function cb_SetPostBackFunctionToSubmit(obj)
             InputElement.setAttribute("onclick", "PostBack(this)");
     });
 }
+
 window.onload = function ()
 {
-    cb_SetPostBackFunctionToSubmit()
+	cb_SetResponseLocation();
+    cb_SetPostBackFunctionToSubmit();
 };
 
 /* End Event */
@@ -118,7 +125,7 @@ function PostBack(obj, ViewState)
             else
             {
                 var TmpDiv = document.createElement("div");
-                TmpDiv.appendChild(HttpResult.toDOM());
+                TmpDiv.innerHTML = HttpResult.toDOM();
                 cb_AppendJavaScriptTag(HttpResult);
 
                 if (ViewState)
@@ -225,7 +232,7 @@ function GetBack(FormAction, ViewState)
             else
             {
                 var TmpDiv = document.createElement("div");
-                TmpDiv.appendChild(HttpResult.toDOM());
+                TmpDiv.innerHTML = HttpResult.toDOM();
                 cb_AppendJavaScriptTag(HttpResult);
 
                 if (ViewState)
