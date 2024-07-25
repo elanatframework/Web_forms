@@ -228,3 +228,39 @@ Example:
 st<body>=...$[ln];	<input name="TextBox" id="TextBox" type="text" />$[ln];...
 as<body>=background-color:green
 ```
+
+## PostBack and GetBack method
+
+`PostBack` and `GetBack` are two methods in WebFormsJS.
+
+`PostBack` requests the URL string in the condition that it also transfers the input data to the server. The `PostBack` method should only be used inside a form tag. The `PostBack` method is automatically activated on submit type inputs.
+
+`GetBack` only requests the URL string regardless of the input data. The URL string can also contain the query string. The `GetBack` method can be used without the form tag on the page.
+
+There are three overloads for the `GetBack` method:
+
+- **`GetBack()`:** Requests the current URL path executed in the browser.
+- **`GetBack(this)`:** should be used only in situations where the form tag must be present on the page. If executed inside a form, the action path requests the form, otherwise it requests the path of the first form on the page.
+- **`GetBack("YourURL")`:** Requests the URL path entered as an argument.
+
+Calling WebFormJS in HTML pages causes submit buttons to automatically get the onclick attribute with `PostBack(this)` value.
+
+`<input name="btn_Button" type="submit" value="Click to send data" onclick="PostBack(this)"/>`
+
+If you call the `PostBack` method as below, the contents of the page will remain and the values ​​will be added to the beginning of the inner content of the body tag.
+
+`PostBack(this, true)`
+
+You can specify where to add content instead of true.
+
+Example1:
+
+`PostBack(this, "<div>2")`
+The above method places the data received from the server inside the third `div` tag.
+
+Example2:
+
+`PostBack(this, "MyTagId")`
+The above method puts the data received from the server inside a tag or `MyTagId` id.
+
+> Note: Examples 1 and 2 for the `GetBack` method also have the same function.
