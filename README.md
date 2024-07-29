@@ -179,6 +179,13 @@ The following decrease the current numerical values:
 
 > Note: Action controls are executed sequentially; if an action control decides to change an `id` attribute from a tag, subsequent action controls cannot perform actions with the previous `id` attribute.
 
+> Note: Note: You can also use negative numbers in all indexes.
+
+Example:
+`de<li>-1=1`
+
+In the example above, the last li tag is removed.
+
 ### Other
 
 - _: **Execute script** - Value: `Script code`
@@ -186,7 +193,7 @@ The following decrease the current numerical values:
 ### Pre Runner
 
 Pre Runners are added before Action Control values.
-Each Pre Runner usually consists of one character, followed by the values ​​of the Pre Runner, and then ends with the closing parenthesis (')') character.
+Each Pre Runner usually consists of one character, followed by the values ​​of the Pre Runner, and then ends with the closing parenthesis (`)`) character.
 
 - →: **Delay** - Value: `Second`
 - ↑: **Period** - Value: `Second`
