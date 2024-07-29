@@ -73,7 +73,7 @@ Here, the first two characters are `al`, which means adding a title, and then it
 
 Action Controls are received in the form of an INI file format. In the first line of the response there is the word `[web-forms]` and each of the following lines is an action control.
 
-The first two characters determine the action code. For example, things like adding styles and removing tags can be obtained from action codes. The first two letters stand for actions and indicate that an action must be performed.
+The first two characters determine the action code. For example, things like adding styles and removing tags can be obtained from action codes. Usually the first two letters stand for actions and indicate that an action must be performed.
 
 After the first two letters, there are 6 status types that specify the tag. Then the equal character is placed and after that the values ​​are placed.
 
@@ -178,6 +178,10 @@ The following decrease the current numerical values:
 - -v: **Descrease Value** - Value: `Number`
 
 > Note: Action controls are executed sequentially; if an action control decides to change an `id` attribute from a tag, subsequent action controls cannot perform actions with the previous `id` attribute.
+
+### Other
+
+- _: **Execute script** - Value: `Script code`
 
 ### Pre Runner
 
