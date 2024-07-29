@@ -201,7 +201,7 @@ In the example above, the `My text string` is placed inside the third `li` tag w
 
 WebFormsJS has a different approach to responding to the first page request in the browser and AJAX requests when the page is already loaded and the user makes a request.
 
-In the first case, if an action is added for the controls, a script is added at the bottom of the page and the actions are placed in the `cb_SetWebFormsValues` ​​method.
+In the first case, if an action is added for the controls, a tag named `web-forms` is added at the bottom of the page, and the actions are placed in the `ac` attribute of the web-forms tag.
 
 Example:
 
@@ -216,7 +216,7 @@ Example:
 	<input name="TextBox" id="TextBox" type="text" />
 ...
 </body>
-</html><script>cb_SetWebFormsValues(`[web-forms]$[sln];asTextBox=color:red`);</script>
+</html><web-forms ac="bc<body>=green"></web-forms>
 ```
 
 In the second case, after the user's request, if the current View is changed, the server must place the Set Text code for the main tag (usually `body`) at the beginning of the action code.
@@ -226,8 +226,10 @@ Example:
 ```ini
 [web-forms]
 st<body>=...$[ln];	<input name="TextBox" id="TextBox" type="text" />$[ln];...
-as<body>=background-color:green
+bc<body>=green
 ```
+
+> Note: When a request is made with WebFormJS, a header with the name `Post-Back` and the value `true` is also sent to the server. Therefore, it is easy to determine the response approach on the server.
 
 ## PostBack and GetBack method
 
