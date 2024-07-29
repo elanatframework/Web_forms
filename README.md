@@ -179,7 +179,7 @@ The following decrease the current numerical values:
 
 > Note: Action controls are executed sequentially; if an action control decides to change an `id` attribute from a tag, subsequent action controls cannot perform actions with the previous `id` attribute.
 
-> Note: Note: You can also use negative numbers in all indexes.
+> Note: You can also use negative numbers in all indexes. This makes access to tags or values ​​to be read from the end.
 
 Example:
 `de<li>-1=1`
