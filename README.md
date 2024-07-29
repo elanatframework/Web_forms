@@ -69,9 +69,9 @@ Here, the first two characters are `ao`, which means adding the option tag, and 
 - Line 6: `al(InputName)=My Input Title`
 Here, the first two characters are `al`, which means adding a title, and then it is specified that it will be applied to a tag named `InputName`, and after the equal character (`=`), the title text is specified.
 
-## Explanation of the action controls
+## Explanation of the Action Controls
 
-Action controls are received in the form of an INI file format. In the first line of the response there is the word `[web-forms]` and each of the following lines is an action control.
+Action Controls are received in the form of an INI file format. In the first line of the response there is the word `[web-forms]` and each of the following lines is an action control.
 
 The first two characters determine the action code. For example, things like adding styles and removing tags can be obtained from action codes. The first two letters stand for actions and indicate that an action must be performed.
 
@@ -178,6 +178,28 @@ The following decrease the current numerical values:
 - -v: **Descrease Value** - Value: `Number`
 
 > Note: Action controls are executed sequentially; if an action control decides to change an `id` attribute from a tag, subsequent action controls cannot perform actions with the previous `id` attribute.
+
+### Pre Runner
+
+Pre Runners are added before Action Control values.
+Each Pre Runner usually consists of one character, followed by the values ​​of the Pre Runner, and then ends with the closing parenthesis (')') character.
+
+- →: **Delay** - Value: `Second`
+- ↑: **Period** - Value: `Second`
+
+Example:
+
+`↑4)+w<b>1=10px`
+
+The above example means that every 4 seconds, the width of the second b tag is added by 10 pixels.
+
+Pre Runners are placed in the queue and can be called one after the other.
+
+Example:
+
+`→10)↑4)+w<b>1=10px`
+
+The above example is the same as the previous example, except that it is executed after 10 seconds.
 
 ## Define the tag
 
