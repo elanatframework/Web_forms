@@ -586,6 +586,8 @@ function cb_SetWebFormsTagsValue(obj)
             var Src = WebForms.getAttribute("src");
             if (Src)
                 GetBack(Src, WebForms);
+
+            WebForms.style.backgroundColor = "unset";
         }
 
         if (WebForms.hasAttribute("ac"))
