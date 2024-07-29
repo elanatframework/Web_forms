@@ -184,7 +184,7 @@ The following decrease the current numerical values:
 Example:
 `de<li>-1=1`
 
-In the example above, the last li tag is removed.
+In the example above, the last `li` tag is removed.
 
 ### Other
 
