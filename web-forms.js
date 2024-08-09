@@ -1,4 +1,4 @@
-/* WebFormsJS - Providing Infrastructure For Web Controls In CodeBehind Framework Owned By Elanat (elanat.net) */
+/* WebFormsJS 1.1 - Providing Infrastructure For Web Controls In CodeBehind Framework Owned By Elanat (elanat.net) */
 
 /* Start Options */
 
