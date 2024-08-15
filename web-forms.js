@@ -464,7 +464,7 @@ function cb_FormDataSerialize(form, TagSubmitName, TagSubmitValue, FormIsMultiPa
 function cb_ExtractScriptTags(Html)
 {
     var ScriptList = new Array();
-    const regex = /<script[^>]+>(.*?)<\/script>/gs;
+    const regex = /<script[^>]*>([\s\S]*?)<\/script>/g;
     let match;
 
     while ((match = regex.exec(Html)) !== null)
