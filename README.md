@@ -195,12 +195,12 @@ In the example above, the last `li` tag is removed.
 Pre Runners are added before Action Control values.
 Each Pre Runner usually consists of one character, followed by the values ​​of the Pre Runner, and then ends with the closing parenthesis (`)`) character.
 
-- →: **Delay** - Value: `Second`
-- ↑: **Period** - Value: `Second`
+- :: **Delay** - Value: `Second`
+- (: **Period** - Value: `Second`
 
 Example:
 
-`↑4)+w<b>1=10px`
+`(4)+w<b>1=10px`
 
 The above example means that every 4 seconds, the width of the second b tag is added by 10 pixels.
 
@@ -208,7 +208,7 @@ Pre Runners are placed in the queue and can be called one after the other.
 
 Example:
 
-`→10)↑4)+w<b>1=10px`
+`:10)(4)+w<b>1=10px`
 
 The above example is the same as the previous example, except that it is executed after 10 seconds.
 
@@ -242,7 +242,7 @@ The `ac` attribute has the Action Controls value. Action Controls in this tag ar
 
 Example:
 
-`<web-forms ac="nt<body>=div|MyDivTag$[sln];shMyDivTag=500px$[sln];swMyDivTag=500px$[sln];→2)bci24=violet"></web-forms>`
+`<web-forms ac="nt<body>=div|MyDivTag$[sln];shMyDivTag=500px$[sln];swMyDivTag=500px$[sln];2)bci24=violet"></web-forms>`
 
 Note: The value of the `ac` attribute must not contain the double-quote character (`"`), and the string `$[dq];` must be used instead.
 
