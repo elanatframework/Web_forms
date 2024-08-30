@@ -26,7 +26,6 @@ PostBackOptions.UseConnectionErrorMessage = true;
 PostBackOptions.ConnectionErrorMessage = "Connection Error";
 PostBackOptions.AutoSetSubmitOnClick = true;
 PostBackOptions.SendDataOnlyByPostMethod = false;
-PostBackOptions.ResponseLocation = document.body;
 PostBackOptions.WebFormsTagsBackgroundColor = "#eee";
 PostBackOptions.SetResponseInsideDivTag = true;
 ```
@@ -37,7 +36,6 @@ WebFormsJS options:
 - ConnectionErrorMessage: The text to display when an error occurs.
 - AutoSetSubmitOnClick: Enabling this option makes submit type inputs automatically send data through WebFormsJS.
 - SendDataOnlyByPostMethod: Enabling this option causes the data to be sent with the Post method; Therefore, the form method is ignored.
-- ResponseLocation: When there is no action control, it specifies the location of the server's responses.
 - WebFormsTagsBackgroundColor: Before rendering the web-forms tags, it gives a default color to their background to improve the user experience.
 - SetResponseInsideDivTag: Enabling this option determines whether the server response will be placed inside the div tag or not.
 
