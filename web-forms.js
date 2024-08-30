@@ -1,4 +1,4 @@
-/* WebFormsJS 1.2 - Providing Infrastructure For Web Controls In CodeBehind Framework Owned By Elanat (elanat.net) */
+/* WebFormsJS 1.3 - Providing Infrastructure For Web Controls In CodeBehind Framework Owned By Elanat (elanat.net) */
 
 /* Start Options */
 
@@ -8,13 +8,12 @@ PostBackOptions.UseConnectionErrorMessage = true;
 PostBackOptions.ConnectionErrorMessage = "Connection Error";
 PostBackOptions.AutoSetSubmitOnClick = true;
 PostBackOptions.SendDataOnlyByPostMethod = false;
-PostBackOptions.ResponseLocation = null;
 PostBackOptions.WebFormsTagsBackgroundColor = "#eee";
 PostBackOptions.SetResponseInsideDivTag = true;
 
-function cb_SetResponseLocation()
+function cb_GetResponseLocation()
 {
-	PostBackOptions.ResponseLocation = document.body;
+    return document.body;
 }
 
 /* End Options */
@@ -53,7 +52,6 @@ function cb_SetPostBackFunctionToSubmit(obj)
 
 window.onload = function ()
 {
-	cb_SetResponseLocation();
     cb_Initialization();
 };
 
@@ -163,16 +161,16 @@ function PostBack(obj, ViewState)
                     }
                     else
                     {
-                        PostBackOptions.ResponseLocation.prepend(TmpDiv);
-                        cb_Initialization(PostBackOptions.ResponseLocation.getElementsByTagName("div")[0]);
+                        cb_GetResponseLocation().prepend(TmpDiv);
+                        cb_Initialization(cb_GetResponseLocation().getElementsByTagName("div")[0]);
                         if (!PostBackOptions.SetResponseInsideDivTag)
-                            PostBackOptions.ResponseLocation.getElementsByTagName("div")[0].outerHTML = PostBackOptions.ResponseLocation.getElementsByTagName("div")[0].innerHTML;
+                            cb_GetResponseLocation().getElementsByTagName("div")[0].outerHTML = cb_GetResponseLocation().getElementsByTagName("div")[0].innerHTML;
                     }
                 }
                 else
                 {
-                    PostBackOptions.ResponseLocation.innerHTML = (PostBackOptions.SetResponseInsideDivTag) ? TmpDiv.outerHTML : TmpDiv.innerHTML;
-                    cb_Initialization(PostBackOptions.ResponseLocation);
+                    cb_GetResponseLocation().innerHTML = (PostBackOptions.SetResponseInsideDivTag) ? TmpDiv.outerHTML : TmpDiv.innerHTML;
+                    cb_Initialization(cb_GetResponseLocation());
                 }
 
                 Form.focus();
@@ -290,16 +288,16 @@ function GetBack(FormAction, ViewState)
                     }
                     else
                     {
-                        PostBackOptions.ResponseLocation.prepend(TmpDiv);
-                        cb_Initialization(PostBackOptions.ResponseLocation.getElementsByTagName("div")[0]);
+                        cb_GetResponseLocation().prepend(TmpDiv);
+                        cb_Initialization(cb_GetResponseLocation().getElementsByTagName("div")[0]);
                         if (!PostBackOptions.SetResponseInsideDivTag)
-                            PostBackOptions.ResponseLocation.getElementsByTagName("div")[0].outerHTML = PostBackOptions.ResponseLocation.getElementsByTagName("div")[0].innerHTML;
+                            cb_GetResponseLocation().getElementsByTagName("div")[0].outerHTML = cb_GetResponseLocation().getElementsByTagName("div")[0].innerHTML;
                     }
                 }
                 else
                 {
-                    PostBackOptions.ResponseLocation.innerHTML = (PostBackOptions.SetResponseInsideDivTag) ? TmpDiv.outerHTML : TmpDiv.innerHTML;
-                    cb_Initialization(PostBackOptions.ResponseLocation);
+                    cb_GetResponseLocation().innerHTML = (PostBackOptions.SetResponseInsideDivTag) ? TmpDiv.outerHTML : TmpDiv.innerHTML;
+                    cb_Initialization(cb_GetResponseLocation());
                 }
             }
         }
