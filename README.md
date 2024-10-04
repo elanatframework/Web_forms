@@ -187,6 +187,10 @@ In the example above, the last `li` tag is removed.
 ### Other
 
 - _: **Execute script** - Value: `Script code`
+- cd: **Cache** - Value: `Cache duration` (Specifies the cache duration in seconds. Inserting the (*) character instead of a numeric value creates a permanent cache.)
+- cs: **Session cache** - Value: `Cache duration` (Specifies the cache duration in seconds. This cache only works while the browser is active.)
+- rd: **Remove cache** - Value: `Cache key` (Deletes the cache based on the cache key. Inserting the (*) character instead of a cache name will delete all caches.)
+- rs: **Remove session cache** - Value: `Cache key` (Deletes the cache session based on the cache key. Inserting the (*) character instead of a cache name will delete all caches.)
 
 ### Pre Runner
 
