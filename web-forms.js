@@ -1,4 +1,4 @@
-/* WebFormsJS 1.3 - Providing Infrastructure For Web Controls In CodeBehind Framework Owned By Elanat (elanat.net) */
+/* WebFormsJS 1.4 - Providing Infrastructure For Web Controls In CodeBehind Framework Owned By Elanat (elanat.net) */
 
 /* Start Options */
 
@@ -121,6 +121,47 @@ function PostBack(obj, ViewState)
         }
 
 
+    // Create Request Name
+    var RequestName = "";
+    if (obj.getAttribute("name"))
+        RequestName = obj.getAttribute("name") + "|" + TagSubmitValue + "|" + FormAction;
+
+    // Check Cache
+    var SessionCacheValue = sessionStorage.getItem(RequestName);
+    if (SessionCacheValue)
+    {
+        cb_SetWebFormsValues("", SessionCacheValue, true, true);
+        return;
+    }
+
+    var LocalCacheValue = localStorage.getItem(RequestName);
+    if (LocalCacheValue)
+    {
+        var LocalCacheDateValue = localStorage.getItem(RequestName + "-date");
+        if (LocalCacheDateValue)
+        {
+            var CacheDate = new Date(LocalCacheDateValue);
+            var CurrentDate = new Date();
+
+            if (CacheDate.getTime() > CurrentDate.getTime())
+            {
+                cb_SetWebFormsValues("", LocalCacheValue, true, true);
+                return;
+            }
+            else
+            {
+                localStorage.removeItem(RequestName);
+                localStorage.removeItem(RequestName + "-date");
+            }
+        }
+        else
+        {
+            cb_SetWebFormsValues("", LocalCacheValue, true, true);
+            return;
+        }
+    }
+
+
     var XMLHttp = new XMLHttpRequest();
     XMLHttp.onreadystatechange = function ()
     {
@@ -135,7 +176,7 @@ function PostBack(obj, ViewState)
                     IsWebForms = true;
 
             if (IsWebForms)
-                cb_SetWebFormsValues(HttpResult, true);
+                cb_SetWebFormsValues(RequestName, HttpResult, true);
             else
             {
                 var TmpDiv = document.createElement("div");
@@ -248,6 +289,46 @@ function GetBack(FormAction, ViewState)
     else
         FormAction = "";
 
+
+    // Create Request Name
+    var RequestName = (FormAction == "") ? window.location.href : FormAction;
+
+    // Check Cache
+    var SessionCacheValue = sessionStorage.getItem(RequestName);
+    if (SessionCacheValue)
+    {
+        cb_SetWebFormsValues("", SessionCacheValue, true, true);
+        return;
+    }
+
+    var LocalCacheValue = localStorage.getItem(RequestName);
+    if (LocalCacheValue)
+    {
+        var LocalCacheDateValue = localStorage.getItem(RequestName + "-date");
+        if (LocalCacheDateValue)
+        {
+            var CacheDate = new Date(LocalCacheDateValue);
+            var CurrentDate = new Date();
+
+            if (CacheDate.getTime() > CurrentDate.getTime())
+            {
+                cb_SetWebFormsValues("", LocalCacheValue, true, true);
+                return;
+            }
+            else
+            {
+                localStorage.removeItem(RequestName);
+                localStorage.removeItem(RequestName + "-date");
+            }
+        }
+        else
+        {
+            cb_SetWebFormsValues("", LocalCacheValue, true, true);
+            return;
+        }
+    }
+
+
     var XMLHttp = new XMLHttpRequest();
     XMLHttp.onreadystatechange = function ()
     {
@@ -262,7 +343,7 @@ function GetBack(FormAction, ViewState)
                     IsWebForms = true;
 
             if (IsWebForms)
-                cb_SetWebFormsValues(HttpResult, true);
+                cb_SetWebFormsValues(RequestName, HttpResult, true);
             else
             {
                 var TmpDiv = document.createElement("div");
@@ -592,7 +673,7 @@ function cb_SetWebFormsTagsValue(obj)
         {
             var ActionControl = WebForms.getAttribute("ac");
             if (ActionControl)
-                cb_SetWebFormsValues(ActionControl.Replace("$[dq];","\""), false, true);
+                cb_SetWebFormsValues("", ActionControl.Replace("$[dq];","\""), false, true);
         }
     });
 }
@@ -601,7 +682,7 @@ function cb_SetWebFormsTagsValue(obj)
 
 /* Start Fetch Web-Forms */
 
-function cb_SetWebFormsValues(WebFormsValues, UsePostBack, WithoutWebFormsSection)
+function cb_SetWebFormsValues(RequestName, WebFormsValues, UsePostBack, WithoutWebFormsSection)
 {
     if (!WithoutWebFormsSection)
         WebFormsValues = WebFormsValues.substring(11);
@@ -623,14 +704,56 @@ function cb_SetWebFormsValues(WebFormsValues, UsePostBack, WithoutWebFormsSectio
             FirstChar = WebFormsList[i].substring(0, 1);
         }
 
+        var SecondChar = WebFormsList[i].substring(1, 2);
         switch (FirstChar)
         {
             case '_':
                 var ScriptValue = WebFormsList[i].GetTextAfter("=").Replace("$[ln];", "\n").FullTrim();
                 cb_SetPreRunnerQueueForEval(PreRunner, ScriptValue);
                 continue;
-        }
 
+            case 'r':
+                var CacheKeyValue = WebFormsList[i].GetTextAfter("=");
+                switch (SecondChar)
+                {
+                    case 's':
+                        if (CacheKeyValue == '*')
+                            sessionStorage.clear();
+                        else
+                            sessionStorage.removeItem(CacheKeyValue);
+                        continue;
+                    case 'd':
+                        if (CacheKeyValue == '*')
+                            localStorage.clear();
+                        else
+                            localStorage.removeItem(CacheKeyValue);
+                        continue;
+                }
+
+            case 'c':
+                switch (SecondChar)
+                {
+                    case 's':
+                        if (!RequestName)
+                            continue;
+                        sessionStorage.setItem(RequestName, WebFormsValues);
+                        continue;
+                    case 'd':
+                        if (!RequestName)
+                            continue;
+                        localStorage.setItem(RequestName, WebFormsValues);
+                        var DurationValue = WebFormsList[i].GetTextAfter("=");
+
+                        if (DurationValue != '*')
+                        {
+                            var UntilDate = new Date();
+                            UntilDate.setSeconds(UntilDate.getSeconds() + parseInt(DurationValue));
+
+                            localStorage.setItem(RequestName + "-date", UntilDate);
+                        }
+                        continue;
+                }
+        }
 
         var ActionName = WebFormsList[i].substring(0, 2);
         var ActionValue = WebFormsList[i].substring(2);
