@@ -1341,6 +1341,22 @@ function cb_SetValueToInput(ActionOperation, ActionFeature, ActionValue)
                 else
                     CurrentElement.appendChild(document.createElement(Value));
                 break;
+            case "ut":
+                if (Value.Contains("|"))
+                {
+                    var TagName = Value.GetTextBefore("|");
+                    var TagId = Value.GetTextAfter("|");
+                    var TmpTag = document.createElement(TagName);
+                    TmpTag.id = TagId;
+                    CurrentElement.prepend(TmpTag);
+                }
+                else
+                    CurrentElement.prepend(document.createElement(Value));
+                break;
+            case 'pt':
+                CurrentElement.innerHTML = Value.Replace("$[ln];", "\n").toDOM() + CurrentElement.innerHTML;
+                cb_Initialization(CurrentElement);
+                break;
             case "lu": GetBack(Value, ElementPlace);
         }
     }
