@@ -89,8 +89,10 @@ The following items are added to the available amount:
 - ak: **Add CheckBox Tag** - Value: `Value|Text|1 or 0`
 - al: **Add Title** - Value: `Title`
 - at: **Add Text** - Value: `Text` (string value `$[ln];` it replaces by `\n` character)
+- pt: **Add Text To Up** - Value: `Text` (string value `$[ln];` it replaces by `\n` character)
 - aa: **Add Attribute** - Value: `Attribute|Value`
 - nt: **Add Tag** - Value: `TagName|Id`
+- ut: **Add Tag To Up** - Value: `TagName|Id`
 
 ### Set
 
