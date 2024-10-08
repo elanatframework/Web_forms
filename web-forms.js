@@ -1364,6 +1364,10 @@ function cb_SetValueToInput(ActionOperation, ActionFeature, ActionValue)
 
 function cb_GetElementByElementPlace(ElementPlace, obj)
 {
+    if (ElementPlace.substring(0, 1) != '>')
+        if (ElementPlace.Contains("|"))
+            ElementPlace = '>' + ElementPlace
+
     var ElementPlaceFirstChar = ElementPlace.substring(0, 1);
 
     const FromPlace = (obj) ? obj : document;
