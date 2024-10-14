@@ -114,12 +114,11 @@ function PostBack(obj, ViewState)
 
     var OldObjectType;
     if (obj.getAttribute("type"))
-        if (obj.getAttribute("type") != "button")
+        if (obj.getAttribute("type") == "submit")
         {
             OldObjectType = obj.type;
             obj.setAttribute("type", "button");
         }
-
 
     // Create Request Name
     var RequestName = "";
@@ -130,6 +129,9 @@ function PostBack(obj, ViewState)
     var SessionCacheValue = sessionStorage.getItem(RequestName);
     if (SessionCacheValue)
     {
+        // Reset Input Type
+        setTimeout(function () { (OldObjectType == "submit") ? obj.type = "submit" : obj.type; }, 1);
+
         cb_SetWebFormsValues("", SessionCacheValue, true, true);
         return;
     }
@@ -145,6 +147,9 @@ function PostBack(obj, ViewState)
 
             if (CacheDate.getTime() > CurrentDate.getTime())
             {
+                // Reset Input Type
+                setTimeout(function () { (OldObjectType == "submit") ? obj.type = "submit" : obj.type; }, 1);
+
                 cb_SetWebFormsValues("", LocalCacheValue, true, true);
                 return;
             }
@@ -156,11 +161,13 @@ function PostBack(obj, ViewState)
         }
         else
         {
+            // Reset Input Type
+            setTimeout(function () { (OldObjectType == "submit") ? obj.type = "submit" : obj.type; }, 1);
+
             cb_SetWebFormsValues("", LocalCacheValue, true, true);
             return;
         }
     }
-
 
     var XMLHttp = new XMLHttpRequest();
     XMLHttp.onreadystatechange = function ()
@@ -252,7 +259,7 @@ function PostBack(obj, ViewState)
 
     XMLHttp.setRequestHeader("Post-Back", "true");
 
-    XMLHttp.send(cb_FormDataSerialize(Form, obj.getAttribute("name"), TagSubmitValue, FormIsMultiPart));
+    XMLHttp.send(cb_FormDataSerialize(Form, obj.getAttribute("name"), TagSubmitValue, OldObjectType, FormIsMultiPart));
 }
 
 /* End Post-Back */
@@ -408,8 +415,8 @@ function GetBack(FormAction, ViewState)
 
 /* End Get-Back */
 
-function cb_FormDataSerialize(form, TagSubmitName, TagSubmitValue, FormIsMultiPart)
-{       
+function cb_FormDataSerialize(form, TagSubmitName, TagSubmitValue, TagSubmitType, FormIsMultiPart)
+{   
     var FormString = "";
     var TmpFormData = new FormData();
 
@@ -530,10 +537,16 @@ function cb_FormDataSerialize(form, TagSubmitName, TagSubmitValue, FormIsMultiPa
         }
     }
 
-    if (FormIsMultiPart)
-        TmpFormData.append(TagSubmitName, TagSubmitValue);
-    else
-        FormString += TagSubmitName + "=" + TagSubmitValue;
+    if (TagSubmitType == "submit")
+    {
+        if (FormIsMultiPart)
+            TmpFormData.append(TagSubmitName, TagSubmitValue);
+        else
+            FormString += TagSubmitName + "=" + TagSubmitValue;
+    }
+    else if (!FormIsMultiPart)
+        if (FormString.length > 0)
+            FormString = FormString.substring(0, FormString.length - 1);
 
     return (FormIsMultiPart) ? TmpFormData : FormString;
 }
@@ -654,6 +667,11 @@ function cb_SetWebFormsTagsValue(obj)
 
     WebFormsTags.forEach(function (WebForms)
     {
+        if (WebForms.hasAttribute("done"))
+            return;
+
+        WebForms.setAttribute("done", "true");
+
         if (WebForms.hasAttribute("src"))
         {
             WebForms.style.backgroundColor = PostBackOptions.WebFormsTagsBackgroundColor;
@@ -691,7 +709,9 @@ function cb_SetWebFormsValues(RequestName, WebFormsValues, UsePostBack, WithoutW
 
     for (var i = 0; i < WebFormsList.length; i++)
     {
-        if (!WebFormsList[i].FullTrim())
+        WebFormsList[i] = WebFormsList[i].FullTrim();
+
+        if (!WebFormsList[i])
             continue;
 
         var PreRunner = new Array();
@@ -710,6 +730,10 @@ function cb_SetWebFormsValues(RequestName, WebFormsValues, UsePostBack, WithoutW
             case '_':
                 var ScriptValue = WebFormsList[i].GetTextAfter("=").Replace("$[ln];", "\n").FullTrim();
                 cb_SetPreRunnerQueueForEval(PreRunner, ScriptValue);
+                continue;
+
+            case `@`:
+                cb_SaveValue(WebFormsList[i].substring(1, 2), WebFormsList[i].substring(2, 3), WebFormsList[i].substring(3));
                 continue;
 
             case 'r':
@@ -752,6 +776,9 @@ function cb_SetWebFormsValues(RequestName, WebFormsValues, UsePostBack, WithoutW
                             localStorage.setItem(RequestName + "-date", UntilDate);
                         }
                         continue;
+                    case 'u':
+                        window.history.replaceState({}, null, WebFormsList[i].GetTextAfter("="));
+                        continue;
                 }
         }
 
@@ -769,8 +796,17 @@ function cb_SetValueToInput(ActionOperation, ActionFeature, ActionValue)
 {
     var ElementPlace = ActionValue.GetTextBefore("=");
     var Value = ActionValue.GetTextAfter("=").FullTrim();
-    var LabelForIndexer = 0;
 
+    // Set Dynamic Value
+    var ValueArray = Value.split("|");
+    for (var ValueArrayIndex = 0; ValueArrayIndex < ValueArray.length; ValueArrayIndex++)
+        if (ValueArray[ValueArrayIndex].length > 0)
+            if (ValueArray[ValueArrayIndex].substring(0,1) == '@')
+                ValueArray[ValueArrayIndex] = cb_FetchValue(ValueArray[ValueArrayIndex]);
+
+    Value = ValueArray.join("|");
+
+    var LabelForIndexer = 0;
     var ElementPlaceList;
 
     if (ElementPlace.substring(0, 1) == '[')
@@ -1174,10 +1210,24 @@ function cb_SetValueToInput(ActionOperation, ActionFeature, ActionValue)
                         }
                         break;
                     case 'o':
+                        if (Value == '*')
+                        {
+                            var OptionList = CurrentElement.querySelectorAll('option');
+                            for (var OptionIndex = 0; OptionIndex < OptionList.length; OptionIndex++)
+                                OptionList[OptionIndex].outerHTML = "";
+                            break;
+                        }
                         if (CurrentElement.querySelectorAll('option[value="' + Value + '"]').length > 0)
                             CurrentElement.querySelectorAll('option[value="' + Value + '"]')[0].outerHTML = "";
                         break;
                     case 'k':
+                        if (Value == '*')
+                        {
+                            var CheckBoxList = CurrentElement.querySelectorAll('input[type="checkbox"]');
+                            for (var CheckBoxTagIndex = 0; CheckBoxTagIndex < CheckBoxList.length; CheckBoxTagIndex++)
+                                CheckBoxList[CheckBoxTagIndex].outerHTML = "";
+                            break;
+                        }
                         var CheckBoxTagLength = CurrentElement.querySelectorAll('input[type="checkbox"][value="' + Value + '"]').length;
                         if (CheckBoxTagLength > 0)
                         {
@@ -1197,14 +1247,12 @@ function cb_SetValueToInput(ActionOperation, ActionFeature, ActionValue)
 
                             break;
                         }
-
                         if (CurrentElement.id)
                         {
                             var LabelTag = document.querySelector('label[for="' + CurrentElement.id + '"]');
                             if (LabelTag)
                                 LabelTag.outerHTML = "";
                         }
-
                         break;
                     case 't':
                         if (Value == "1")
@@ -1304,6 +1352,7 @@ function cb_SetValueToInput(ActionOperation, ActionFeature, ActionValue)
             case "ta": CurrentElement.style.textAlign = Value; break;
             case "sr": (Value == "1") ? CurrentElement.setAttribute("readonly", "") : CurrentElement.removeAttribute("readonly"); break;
             case "sd": (Value == "1") ? CurrentElement.setAttribute("disabled", "") : CurrentElement.removeAttribute("disabled"); break;
+            case "sf": (Value == "1") ? CurrentElement.focus() : CurrentElement.blur(); break;
             case "mn": CurrentElement.setAttribute("minlength", Value); break;
             case "mx": CurrentElement.setAttribute("maxlength", Value); break;
             case "ts": CurrentElement.value = Value; break;
@@ -1416,6 +1465,152 @@ function cb_GetElementByElementPlace(ElementPlace, obj)
 
         default: return FromPlace.getElementById(ElementPlace);
     }
+}
+
+function cb_FetchValue(Value)
+{
+    Value = Value.substring(1);
+      
+    if (!Value)
+        return Value;
+
+    var ActionOperation = Value.substring(0, 1);
+    var ActionFeature = Value.substring(1, 2);
+
+    if (ActionOperation == '_')
+        return eval(Value.substring(1).Replace("$[ln];", "\n").FullTrim());
+
+    Value = Value.substring(2);
+
+    switch (ActionOperation)
+    {
+        case 'm':
+            switch (ActionFeature)
+            {
+                case 'r':
+                    if (Value.Contains(','))
+                        return Math.floor(Math.random() * Value.GetTextBefore(',')) + Value.GetTextAfter(',');
+                    else
+                        return Math.floor(Math.random() * Value.GetTextBefore(','));
+            }
+
+        case 'd':
+            var CurrentDate = new Date();
+            switch (ActionFeature)
+            {
+                case 'y': return CurrentDate.getFullYear();
+                case 'm': return CurrentDate.getMonth();
+                case 'd': return CurrentDate.getDay();
+                case 'h': return CurrentDate.getHours();
+                case 'i': return CurrentDate.getMinutes();
+                case 's': return CurrentDate.getSeconds();
+                case 'l': return CurrentDate.getMilliseconds();
+            }
+
+        case 'c':
+            switch (ActionFeature)
+            {
+                case 's':
+                case 'l':
+                    if (Value.Contains(','))
+                    {
+                        if (sessionStorage.getItem(Value.GetTextBefore(',')))
+                        {
+                            var TmpValue = sessionStorage.getItem(Value.GetTextBefore(','));
+                            if (ActionFeature == 'l')
+                                sessionStorage.removeItem(Value.GetTextBefore(','));
+
+                            return TmpValue;
+                        }
+                        else
+                            return sessionStorage.getItem(Value.GetTextAfter(','));
+                    }
+                    else
+                    {
+                        var TmpValue =  sessionStorage.getItem(Value);
+                        if (ActionFeature == 't')
+                            sessionStorage.removeItem(Value);
+
+                        return TmpValue;
+                    }
+                case 'd':
+                case 't':
+                    if (Value.Contains(','))
+                    {
+                        if (localStorage.getItem(Value.GetTextBefore(',')))
+                        {
+                            var TmpValue = localStorage.getItem(Value.GetTextBefore(','));
+                            if (ActionFeature == 't')
+                                localStorage.removeItem(Value.GetTextBefore(','));
+
+                            return TmpValue;
+                        }
+                        else
+                            return localStorage.getItem(Value.GetTextAfter(','));
+                    }
+                    else
+                    {
+                        var TmpValue = localStorage.getItem(Value);
+                        if (ActionFeature == 't')
+                            localStorage.removeItem(Value);
+
+                        return TmpValue;
+                    }
+            }
+    }
+}
+
+function cb_SaveValue(ActionOperation, ActionFeature, ActionValue)
+{
+    var CurrentElement = cb_GetElementByElementPlace(ActionValue.GetTextBefore('='));
+    var Name = ActionValue.GetTextAfter('=');
+
+    switch (ActionOperation)
+    {
+        case 'g':
+            switch (ActionFeature)
+            {
+                case 'i': cb_SetSession(Name, CurrentElement.id); break;
+                case 'n': cb_SetSession(Name, CurrentElement.name); break;
+                case 'v': cb_SetSession(Name, CurrentElement.value); break;
+                case 'e': cb_SetSession(Name, CurrentElement.value.length); break;
+                case 'c': cb_SetSession(Name, CurrentElement.className); break;
+                case 's': cb_SetSession(Name, CurrentElement.style); break;
+                case 'l': cb_SetSession(Name, CurrentElement.id); break;
+                    if (!CurrentElement.tagName.IsInput())
+                    {
+                        if (CurrentElement.hasAttribute("title"))
+                            cb_SetSession(Name, CurrentElement.getAttribute("title"));
+                        break;
+                    }
+                    if (CurrentElement.id)
+                    {
+                        var LabelTag = document.querySelector('label[for="' + CurrentElement.id + '"]');
+                        if (LabelTag)
+                            cb_SetSession(Name, CurrentElement.getAttribute(LabelTag.outerHTML));
+                    }
+                    break;
+                case 't': cb_SetSession(Name, CurrentElement.innerHTML); break;
+                case 'g': cb_SetSession(Name, CurrentElement.innerHTML.length); break;
+                case 'a': cb_SetSession(Name.GetTextBefore('|'), CurrentElement, getAttribute(Name.GetTextAfter('|'))); break;
+                case 'w': cb_SetSession(Name, CurrentElement.style.width); break;
+                case 'h': cb_SetSession(Name, CurrentElement.style.height); break;
+                case 'r': cb_SetSession(Name, (CurrentElemen.hasAttribute("readonly")? "true" : "false")); break;
+                case 'x': cb_SetSession(Name, CurrentElement.selectedIndex);
+            }
+    }
+
+    switch (ActionOperation + ActionFeature)
+    {
+        case "ta": cb_SetSession(Name, CurrentElement.style.textAlign); break;
+        case "nl": cb_SetSession(Name, CurrentElement.childNodes.length); break;
+        case "vi": cb_SetSession(Name, ((urrentElement.style.visibility == "hidden") ? "true" : "false"));
+    }
+}
+
+function cb_SetSession(Name, Value)
+{
+    sessionStorage.setItem(Name, Value);
 }
 
 /* End Fetch Web-Forms */
