@@ -117,6 +117,7 @@ The following replaces the existing values:
 - vi: **Set Visible** - Value: `1 or 0`
 - ta: **Set Text Align** - Value: `Align`
 - sr: **Set Read Only** - Value: `1 or 0`
+- sf: **Set Focus** - Value: `1 or 0`
 - sd: **Set Disabled** - Value: `1 or 0`
 - mn: **Set Min Length** - Value: `Length`
 - mx: **Set Max Length** - Value: `Length`
@@ -124,6 +125,7 @@ The following replaces the existing values:
 - ti: **Set Selected Index** - Value: `Index`
 - ks: **Set Checked Value** - Value: `Value|1 or 0`
 - ki: **Set Checked Index** - Value: `Index|1 or 0`
+- cu: **Change Browser URL** - Value: `URL`
 
 ### Insert
 
@@ -148,8 +150,8 @@ The following will remove the current values:
 - dv: **Delete Value** - Value: `1`
 - dc: **Delete Class** - Value: `Class`
 - ds: **Delete Style** - Value: `Style` (only the style name is entered without a value)
-- do: **Delete Option Tag** - Value: `Value`
-- dk: **Delete CheckBox Tag** - Value: `Value`
+- do: **Delete Option Tag** - Value: `Value or * (all tag)`
+- dk: **Delete CheckBox Tag** - Value: `Value or * (all tag)`
 - dl: **Delete Title** - Value: `1`
 - dt: **Delete Text** - Value: `1`
 - da: **Delete Attribute** - Value: `Attribute`
@@ -177,6 +179,20 @@ The following decrease the current numerical values:
 - -h: **Descrease Height** - Value: `Number`
 - -v: **Descrease Value** - Value: `Number`
 
+### Fetch
+
+The following values ​​are built-in functions that are placed after the equals character (`=`)
+
+- @_: **Execute Script** - Value: `Script code`
+- @mr: **Random Number** - Value `Max number|Min number`
+- @dy: **Year**
+- @dm: **Month**
+- @dd: **Day**
+- @dh: **Hours**
+- @di: **Minutes**
+- @ds: **Seconds**
+- @dl: **Milliseconds**
+
 > Note: Action controls are executed sequentially; if an action control decides to change an `id` attribute from a tag, subsequent action controls cannot perform actions with the previous `id` attribute.
 
 > Note: You can also use negative numbers in all indexes. This makes access to tags or values ​​to be read from the end.
@@ -188,11 +204,11 @@ In the example above, the last `li` tag is removed.
 
 ### Other
 
-- _: **Execute script** - Value: `Script code`
+- _: **Execute Script** - Value: `Script code`
 - cd: **Cache** - Value: `Cache duration` (Specifies the cache duration in seconds. Inserting the (*) character instead of a numeric value creates a permanent cache.)
-- cs: **Session cache** - Value: `Cache duration` (Specifies the cache duration in seconds. This cache only works while the browser is active.)
-- rd: **Remove cache** - Value: `Cache key` (Deletes the cache based on the cache key. Inserting the (*) character instead of a cache name will delete all caches.)
-- rs: **Remove session cache** - Value: `Cache key` (Deletes the cache session based on the cache key. Inserting the (*) character instead of a cache name will delete all caches.)
+- cs: **Session Cache** - Value: `Cache duration` (Specifies the cache duration in seconds. This cache only works while the browser is active.)
+- rd: **Remove Cache** - Value: `Cache key` (Deletes the cache based on the cache key. Inserting the (*) character instead of a cache name will delete all caches.)
+- rs: **Remove Session Cache** - Value: `Cache key` (Deletes the cache session based on the cache key. Inserting the (*) character instead of a cache name will delete all caches.)
 
 ### Pre Runner
 
