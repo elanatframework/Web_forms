@@ -179,9 +179,31 @@ The following decrease the current numerical values:
 - -h: **Descrease Height** - Value: `Number`
 - -v: **Descrease Value** - Value: `Number`
 
+### Save
+
+The following items are temporarily stored and deleted after being called.
+
+- @gi: **Save Id** - Value: `Key`
+- @gn: **Save Name** - Value: `Key`
+- @gv: **Save Value** - Value: `Key`
+- @ge: **Save Value Length** - Value: `Key`
+- @gc: **Save Class** - Value: `Key`
+- @gs: **Save Style** - Value: `Key`
+- @gl: **Save Title** - Value: `Key`
+- @gt: **Save Text** - Value: `Key`
+- @gg: **Save Text Length** - Value: `Key`
+- @ga: **Save Attribute** - Value: `Key|Attribute`
+- @gw: **Save Width** - Value: `Key`
+- @gh: **Save Height** - Value: `Key`
+- @gr: **Save Read Only** - Value: `Key`
+- @gx: **Save Selected Index** - Value: `Key`
+- @ta: **Save Text Align** - Value: `Key`
+- @nl: **Save Child Nodes Length** - Value: `Key`
+- @vi: **Save Visible** - Value: `Key`
+
 ### Fetch
 
-The following values ​​are built-in functions that are placed after the equals character (`=`)
+The following values ​​are built-in functions that are placed after the equals character (`=`):
 
 - @_: **Execute Script** - Value: `Script code`
 - @mr: **Random Number** - Value `Max number|Min number`
@@ -192,6 +214,10 @@ The following values ​​are built-in functions that are placed after the equa
 - @di: **Minutes**
 - @ds: **Seconds**
 - @dl: **Milliseconds**
+- @cs: **Sessioc Cache** - Value `Key|Replacement value`
+- @cl: **Sessioc Cache Then Delete It** - Value `Key|Replacement value`
+- @cd: **Cache** - Value `Key|Replacement value`
+- @ct: **Cache Then Delete It** - Value `Key|Replacement value`
 
 > Note: Action controls are executed sequentially; if an action control decides to change an `id` attribute from a tag, subsequent action controls cannot perform actions with the previous `id` attribute.
 
