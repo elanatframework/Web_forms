@@ -178,9 +178,12 @@ function PostBack(obj, ViewState)
             var IsWebForms = false;
 
             // Check Exist WebForms Values
-            if (HttpResult.length >= 11)
-                if (HttpResult.substring(0, 11) == "[web-forms]")
+            if (HttpResult.TrimStart().length >= 11)
+                if (HttpResult.TrimStart().substring(0, 11) == "[web-forms]")
+                {
+                    HttpResult = HttpResult.TrimStart();
                     IsWebForms = true;
+                }
 
             if (IsWebForms)
                 cb_SetWebFormsValues(RequestName, HttpResult, true);
@@ -345,9 +348,12 @@ function GetBack(FormAction, ViewState)
             var IsWebForms = false;
 
             // Check Exist WebForms Values
-            if (HttpResult.length >= 11)
-                if (HttpResult.substring(0, 11) == "[web-forms]")
+            if (HttpResult.TrimStart().length >= 11)
+                if (HttpResult.TrimStart().substring(0, 11) == "[web-forms]")
+                {
+                    HttpResult = HttpResult.TrimStart();
                     IsWebForms = true;
+                }
 
             if (IsWebForms)
                 cb_SetWebFormsValues(RequestName, HttpResult, true);
@@ -1628,6 +1634,11 @@ String.prototype.toDOM = function ()
 String.prototype.FullTrim = function ()
 {
     return this.trim().replace(/^\s\n+|\s\n+$/g, '');
+};
+
+String.prototype.TrimStart = function ()
+{
+    return this.replace(/^[\s\n]+/, '');
 };
 
 String.prototype.IsInput = function ()
