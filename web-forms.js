@@ -1408,6 +1408,30 @@ function cb_SetValueToInput(ActionOperation, ActionFeature, ActionValue)
                 else
                     CurrentElement.prepend(document.createElement(Value));
                 break;
+            case "bt":
+                if (Value.Contains("|"))
+                {
+                    var TagName = Value.GetTextBefore("|");
+                    var TagId = Value.GetTextAfter("|");
+                    var TmpTag = document.createElement(TagName);
+                    TmpTag.id = TagId;
+                    CurrentElement.outerHTML = TmpTag.outerHTML + CurrentElement.outerHTML;
+                }
+                else
+                    CurrentElement.outerHTML = document.createElement(Value).outerHTML + CurrentElement.outerHTML;
+                break;
+            case "ft":
+                if (Value.Contains("|"))
+                {
+                    var TagName = Value.GetTextBefore("|");
+                    var TagId = Value.GetTextAfter("|");
+                    var TmpTag = document.createElement(TagName);
+                    TmpTag.id = TagId;
+                    CurrentElement.outerHTML = CurrentElement.outerHTML + TmpTag.outerHTMLL;
+                }
+                else
+                    CurrentElement.outerHTML = CurrentElement.outerHTML + document.createElement(Value).outerHTML;
+                break;
             case 'pt':
                 CurrentElement.innerHTML = Value.Replace("$[ln];", "\n").toDOM() + CurrentElement.innerHTML;
                 cb_Initialization(CurrentElement);
