@@ -93,6 +93,8 @@ The following items are added to the available amount:
 - aa: **Add Attribute** - Value: `Attribute|Value`
 - nt: **Add Tag** - Value: `TagName|Id`
 - ut: **Add Tag To Up** - Value: `TagName|Id`
+- bt: **Add Tag Before This Tag** - Value: `TagName|Id`
+- ft: **Add Tag After This Tag** - Value: `TagName|Id`
 
 ### Set
 
