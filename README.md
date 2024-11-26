@@ -345,7 +345,7 @@ bc<body>=green
 There are three overloads for the `GetBack` method:
 
 - **`GetBack()`:** Requests the current URL path executed in the browser.
-- **`GetBack(this)`:** should be used only in situations where the form tag must be present on the page. If executed inside a form, the action path requests the form, otherwise it requests the path of the first form on the page.
+- **`GetBack(this)`:** Should be used only in situations where the form tag must be present on the page. If executed inside a form, the action path requests the form, otherwise it requests the path of the first form on the page.
 - **`GetBack("YourURL")`:** Requests the URL path entered as an argument.
 
 Calling WebFormJS in HTML pages causes submit buttons to automatically get the onclick attribute with `PostBack(this)` value.
