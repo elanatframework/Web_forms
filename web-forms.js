@@ -1,4 +1,4 @@
-/* WebFormsJS 1.4 - Providing Infrastructure For Web Controls In CodeBehind Framework Owned By Elanat (elanat.net) */
+/* WebFormsJS 1.5 - Providing Infrastructure For Web Controls In CodeBehind Framework Owned By Elanat (elanat.net) */
 
 /* Start Options */
 
@@ -10,6 +10,9 @@ PostBackOptions.AutoSetSubmitOnClick = true;
 PostBackOptions.SendDataOnlyByPostMethod = false;
 PostBackOptions.WebFormsTagsBackgroundColor = "#eee";
 PostBackOptions.SetResponseInsideDivTag = true;
+PostBackOptions.ProgressBarStyle = "width:100%;min-width:300px;max-width:600px;background-color:#eee;margin:2px 0px";
+PostBackOptions.ProgressBarPercentLoadedStyle = "position:absolute;padding:0px 4px;line-height:22px";
+PostBackOptions.ProgressBarValueStyle = "height:20px;background-color:#4D93DD;width:0%";
 
 function cb_GetResponseLocation()
 {
@@ -421,6 +424,17 @@ function GetBack(FormAction, ViewState)
 
 /* End Get-Back */
 
+/* Start Tag-Back */
+
+function TagBack(OutputPlace)
+{
+    var ElementPlace = cb_GetElementByElementPlace(OutputPlace);
+    var ActionControls = ElementPlace.getAttribute("ac");
+    cb_SetWebFormsValues("", ActionControls, false, true);
+}
+
+/* End Tag-Back */
+
 function cb_FormDataSerialize(form, TagSubmitName, TagSubmitValue, TagSubmitType, FormIsMultiPart)
 {   
     var FormString = "";
@@ -622,15 +636,15 @@ function cb_SetProgressTag(obj, form)
     {
         var DivProgressUpload = document.createElement("div");
         DivProgressUpload.id = "div_ProgressUpload";
-        DivProgressUpload.setAttribute("style", "width:100%;min-width:300px;max-width:600px;background-color:#eee;margin:2px 0px");
+        DivProgressUpload.setAttribute("style", PostBackOptions.ProgressBarStyle);
 
         var DivProgressPercentLoaded = document.createElement("div");
         DivProgressPercentLoaded.id = "div_ProgressPercentLoaded";
-        DivProgressPercentLoaded.setAttribute("style", "position:absolute;padding:0px 4px;line-height:22px");
+        DivProgressPercentLoaded.setAttribute("style", PostBackOptions.ProgressBarPercentLoadedStyle);
 
         var DivProgressUploadValue = document.createElement("div");
         DivProgressUploadValue.id = "div_ProgressUploadValue";
-        DivProgressUploadValue.setAttribute("style", "height:20px;background-color:#4D93DD;width:0%");
+        DivProgressUploadValue.setAttribute("style", PostBackOptions.ProgressBarValueStyle);
 
         DivProgressUpload.appendChild(DivProgressPercentLoaded);
         DivProgressUpload.appendChild(DivProgressUploadValue);
@@ -1341,6 +1355,113 @@ function cb_SetValueToInput(ActionOperation, ActionFeature, ActionValue)
                         else
                             if ((ActionOperation == '+'))
                                 CurrentElement.value = Value;
+                }
+                break;
+
+            case 'E':
+                switch (ActionFeature)
+                {
+                    case "p":
+                        if (Value.Contains("|"))
+                        {
+                            var HtmlEvent = Value.GetTextBefore("|");
+                            
+                            if (Value.GetTextAfter("|") == '+')
+                                CurrentElement.setAttribute(HtmlEvent, "PostBack(this, true)");
+                            else
+                                CurrentElement.setAttribute(HtmlEvent, "PostBack(this, '" + Value.GetTextAfter("|") + "')");
+                        }
+                        else
+                            CurrentElement.setAttribute(Value, "PostBack(this)");
+                        break;
+                    case "P":
+                        if (Value.Contains("|"))
+                        {
+                            var HtmlEvent = Value.GetTextBefore("|");
+                            
+                            if (Value.GetTextAfter("|") == '+')
+                                CurrentElement.addEventListener(HtmlEvent, () => { PostBack(this, true); });
+                            else
+                                CurrentElement.addEventListener(HtmlEvent, () => { PostBack(this, Value.GetTextAfter("|")); });
+                            break;
+                        }
+                        else
+                            CurrentElement.addEventListener(Value, () => { PostBack(this); });
+                        break;
+                    case "g":
+                        if (Value.Contains("|"))
+                        {
+                            var HtmlEvent = Value.GetTextBefore("|");
+                            var Path = Value.GetTextAfter("|");
+
+                            if (Path.Contains("|"))
+                            {
+                                if (Path.GetTextBefore("|") == '#')
+                                    CurrentElement.setAttribute(HtmlEvent, "GetBack('', '" + Path.GetTextAfter("|") + "')");
+                                else
+                                    CurrentElement.setAttribute(HtmlEvent, "GetBack('" + Path.GetTextBefore("|") + "', '" + Path.GetTextAfter("|") + "')");
+                            }
+                            else
+                            {
+                                if (Path == '#')
+                                    CurrentElement.setAttribute(HtmlEvent, "GetBack()");
+                                else
+                                    CurrentElement.setAttribute(HtmlEvent, "GetBack('" + Path + "')");
+                            }
+                        }
+                        else
+                            CurrentElement.setAttribute(Value, "GetBack(this)");
+                        break;
+                    case "G":
+                        if (Value.Contains("|"))
+                        {
+                            var HtmlEvent = Value.GetTextBefore("|");
+                            var Path = Value.GetTextAfter("|");
+
+                            if (Path.Contains("|"))
+                            {
+                                if (Path.GetTextBefore("|") == '#')
+                                    CurrentElement.addEventListener(HtmlEvent, () => { GetBack("", Path.GetTextAfter("|")); });
+                                else
+                                    CurrentElement.addEventListener(HtmlEvent, () => { GetBack(Path.GetTextBefore("|"), Path.GetTextAfter("|")); });
+                            }
+                            else
+                            {
+                                if (Path == '#')
+                                    CurrentElement.addEventListener(HtmlEvent, GetBack);
+                                else
+                                    CurrentElement.addEventListener(HtmlEvent, () => { GetBack(Path); });
+                            }
+                        }
+                        else
+                            CurrentElement.addEventListener(Value, () => { GetBack(this); });
+                        break;
+                    case "t":                           
+                        CurrentElement.setAttribute(Value.GetTextBefore("|"), "TagBack('" + Value.GetTextAfter("|") + "')");
+                        break;
+                    case "T":                           
+                        CurrentElement.addEventListener(Value.GetTextBefore("|"), () => { TagBack(Value.GetTextAfter("|")); });
+                        break;
+                }
+                break;
+
+            case 'R':
+                switch (ActionFeature)
+                {
+                    case "p":
+                    case "g":
+                    case "t":
+                        CurrentElement.removeAttribute(Value);
+                        break;
+                    case "P":
+                        CurrentElement.removeEventListener(Value, () => { PostBack(this); });
+                        break;
+                    case "G":
+                        CurrentElement.removeEventListener(Value, () => { GetBack(this); });
+                        break;
+                    case "T":
+                        CurrentElement.removeEventListener(Value, () => { TagBack(this); });
+                        break;
                 }
                 break;
         }
