@@ -28,6 +28,9 @@ PostBackOptions.AutoSetSubmitOnClick = true;
 PostBackOptions.SendDataOnlyByPostMethod = false;
 PostBackOptions.WebFormsTagsBackgroundColor = "#eee";
 PostBackOptions.SetResponseInsideDivTag = true;
+PostBackOptions.ProgressBarStyle = "width:100%;min-width:300px;max-width:600px;background-color:#eee;margin:2px 0px";
+PostBackOptions.ProgressBarPercentLoadedStyle = "position:absolute;padding:0px 4px;line-height:22px";
+PostBackOptions.ProgressBarValueStyle = "height:20px;background-color:#4D93DD;width:0%";
 ```
 WebFormsJS options:
 
@@ -38,6 +41,9 @@ WebFormsJS options:
 - SendDataOnlyByPostMethod: Enabling this option causes the data to be sent with the Post method; Therefore, the form method is ignored.
 - WebFormsTagsBackgroundColor: Before rendering the web-forms tags, it gives a default color to their background to improve the user experience.
 - SetResponseInsideDivTag: Enabling this option determines whether the server response will be placed inside the div tag or not.
+- ProgressBarStyle: Styles for progress bar
+- ProgressBarPercentLoadedStyle: Styles for percentage and text size for progress bar
+- ProgressBarValueStyle: Styles for uploading animation for progress bar
 
 ## Action Controls
 
