@@ -1,6 +1,8 @@
 ![ ](https://github.com/user-attachments/assets/e44373ab-751f-4cea-83a0-93161aaae9d2)
 # WebFormsJS
 
+WebFormsJS is the front-end part of the **WebForms Core technology** that communicates with the WebForms class on the back-end.
+
 WebFormsJS is a JavaScript library that provides the infrastructure for interacting with web controls in the [CodeBehind framework](https://github.com/elanatframework/Code_behind); this allows developers to easily manage HTML tags on the server-side.
 
 WebFormsJS is a new architecture similar to Microsoft's former Web-Forms, but has none of its disadvantages. The performance of WebFormsJS is much more than the previous Web-Forms, so that it manages all HTML tags.
