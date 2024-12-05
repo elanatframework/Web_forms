@@ -334,7 +334,7 @@ bc<body>=green
 
 > Note: When a request is made with WebFormJS, a header with the name `Post-Back` and the value `true` is also sent to the server. Therefore, it is easy to determine the response approach on the server.
 
-## PostBack and GetBack method
+## PostBack and GetBack and TagBack method
 
 `PostBack` and `GetBack` are two methods in WebFormsJS.
 
@@ -369,3 +369,14 @@ Example2:
 The above method puts the data received from the server inside a tag or `MyTagId` id.
 
 > Note: Examples 1 and 2 for the `GetBack` method also have the same function.
+
+`TagBack` method renders the action control of a web-forms tag.
+
+Example:
+
+`TagBack ("(my-class)-1")`
+The above method renders the action control of the last web-forms tag whose class name is my-class.
+
+Example web-forms tag
+
+`<web-forms class="my-class" ac="bc<body>=red"></web-forms>`
