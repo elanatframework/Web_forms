@@ -189,6 +189,25 @@ The following decrease the current numerical values:
 - -h: **Descrease Height** - Value: `Number`
 - -v: **Descrease Value** - Value: `Number`
 
+### Event
+
+The following add event types to HTML tags:
+
+- Ep: **Set Post Event** - Value: `Html Event|* (for add response) or Output Place`
+- EP: **Set Post Event Listener** - Value: `Html Event Listener|* (for add response) or Output Place`
+- Eg: **Set Get Event** - Value: `Html Event|# (for current path) or Path|{Output Place}`
+- Eg: **Set Get Event In Form** - Value: `Html Event|{Output Place}`
+- EG: **Set Get Event Listener** - Value: `Html Event Listener|# (for current path) or Path|{Output Place}`
+- EG: **Set Get Event In Form Listener** - Value: `Html Event Listener|{Output Place}`
+- Et: **Set Tag Event** - Value: `Html Event|{Output Place}`
+- ET: **Set Tag Event Listener** - Value: `Html Event Listener|{Output Place}`
+- Rp: **Remove Post Event** - Value: `Html Event`
+- RP: **Remove Post Event Listener** - Value: `Html Event Listener`
+- Rg: **Remove Get Event** - Value: `Html Event`
+- RG: **Remove Get Event Listener** - Value: `Html Event Listener`
+- Rt: **Remove Tag Event** - Value: `Html Event`
+- RT: **Remove Tag Event Listener** - Value: `Html Event Listener`
+
 ### Save
 
 The following items are temporarily stored and deleted after being called.
