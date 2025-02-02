@@ -166,6 +166,7 @@ The following will remove the current values:
 - dt: **Delete Text** - Value: `1`
 - da: **Delete Attribute** - Value: `Attribute`
 - de: **Delete Tag** - Value: `1`
+- dp: **Delete Parent Tag** - Value: `1`
 
 ### Increase
 
@@ -243,6 +244,7 @@ The following values ​​are built-in functions that are placed after the equa
 - @di: **Minutes**
 - @ds: **Seconds**
 - @dl: **Milliseconds**
+- @co: **Get Cookie** - Value `Key`
 - @cs: **Sessioc Cache** - Value `Key|Replacement value`
 - @cl: **Sessioc Cache Then Delete It** - Value `Key|Replacement value`
 - @cd: **Cache** - Value `Key|Replacement value`
