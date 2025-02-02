@@ -1,4 +1,4 @@
-/* WebFormsJS 1.5 - Providing Infrastructure For Web Controls In CodeBehind Framework Owned By Elanat (elanat.net) */
+/* WebFormsJS 1.6 - Providing Infrastructure For Web Controls In CodeBehind Framework Owned By Elanat (elanat.net) */
 
 /* Start Options */
 
@@ -124,53 +124,26 @@ function PostBack(obj, ViewState)
         }
 
     // Create Request Name
-    var RequestName = "";
+    var RequestNameForCache = "<";
+    var RequestName = (FormAction == "") ? window.location.pathname : FormAction;
+    if (FormAction.length > 0)
+    {
+        if (FormAction.substring(0, 1) == '#')
+            RequestName = window.location.pathname + FormAction;
+
+        if (FormAction.Contains("#"))
+            RequestNameForCache = "#" + FormAction.GetTextAfter("#");
+    }
     if (obj.getAttribute("name"))
-        RequestName = obj.getAttribute("name") + "|" + TagSubmitValue + "|" + FormAction;
+        RequestName = obj.getAttribute("name") + "|" + TagSubmitValue + "|" + RequestName;
 
     // Check Cache
-    var SessionCacheValue = sessionStorage.getItem(RequestName);
-    if (SessionCacheValue)
-    {
-        // Reset Input Type
+    if (cb_UsedCache(RequestName, RequestNameForCache))
+    {        // Reset Input Type
         setTimeout(function () { (OldObjectType == "submit") ? obj.type = "submit" : obj.type; }, 1);
-
-        cb_SetWebFormsValues("", SessionCacheValue, true, true);
         return;
     }
 
-    var LocalCacheValue = localStorage.getItem(RequestName);
-    if (LocalCacheValue)
-    {
-        var LocalCacheDateValue = localStorage.getItem(RequestName + "-date");
-        if (LocalCacheDateValue)
-        {
-            var CacheDate = new Date(LocalCacheDateValue);
-            var CurrentDate = new Date();
-
-            if (CacheDate.getTime() > CurrentDate.getTime())
-            {
-                // Reset Input Type
-                setTimeout(function () { (OldObjectType == "submit") ? obj.type = "submit" : obj.type; }, 1);
-
-                cb_SetWebFormsValues("", LocalCacheValue, true, true);
-                return;
-            }
-            else
-            {
-                localStorage.removeItem(RequestName);
-                localStorage.removeItem(RequestName + "-date");
-            }
-        }
-        else
-        {
-            // Reset Input Type
-            setTimeout(function () { (OldObjectType == "submit") ? obj.type = "submit" : obj.type; }, 1);
-
-            cb_SetWebFormsValues("", LocalCacheValue, true, true);
-            return;
-        }
-    }
 
     var XMLHttp = new XMLHttpRequest();
     XMLHttp.onreadystatechange = function ()
@@ -304,42 +277,20 @@ function GetBack(FormAction, ViewState)
 
 
     // Create Request Name
-    var RequestName = (FormAction == "") ? window.location.href : FormAction;
+    var RequestNameForCache = "<";
+    var RequestName = (FormAction == "") ? window.location.pathname : FormAction;
+    if (FormAction.length > 0)
+    {
+        if (FormAction.substring(0, 1) == '#')
+            RequestName = window.location.pathname + FormAction;
+
+        if (FormAction.Contains("#"))
+            RequestNameForCache = "#" + FormAction.GetTextAfter("#");
+    }
 
     // Check Cache
-    var SessionCacheValue = sessionStorage.getItem(RequestName);
-    if (SessionCacheValue)
-    {
-        cb_SetWebFormsValues("", SessionCacheValue, true, true);
+    if (cb_UsedCache(RequestName, RequestNameForCache))
         return;
-    }
-
-    var LocalCacheValue = localStorage.getItem(RequestName);
-    if (LocalCacheValue)
-    {
-        var LocalCacheDateValue = localStorage.getItem(RequestName + "-date");
-        if (LocalCacheDateValue)
-        {
-            var CacheDate = new Date(LocalCacheDateValue);
-            var CurrentDate = new Date();
-
-            if (CacheDate.getTime() > CurrentDate.getTime())
-            {
-                cb_SetWebFormsValues("", LocalCacheValue, true, true);
-                return;
-            }
-            else
-            {
-                localStorage.removeItem(RequestName);
-                localStorage.removeItem(RequestName + "-date");
-            }
-        }
-        else
-        {
-            cb_SetWebFormsValues("", LocalCacheValue, true, true);
-            return;
-        }
-    }
 
 
     var XMLHttp = new XMLHttpRequest();
@@ -722,6 +673,18 @@ function cb_SetWebFormsTagsValue(obj)
 
 function cb_SetWebFormsValues(RequestName, WebFormsValues, UsePostBack, WithoutWebFormsSection)
 {
+    // Initialization to Index
+    var StartIndex = RequestName.Contains("#") ? RequestName.GetTextAfter("#") : "";
+    var IndexHasStarted = ((StartIndex == "") || (StartIndex == "0"));
+    var StartIndexIsNumber = (!isNaN(StartIndex) && !isNaN(parseInt(StartIndex)));
+    var StartIndexIndex = StartIndexIsNumber ? parseInt(StartIndex) : 0;
+    var IndexForStartIndex = 1;
+
+    // Remove Request Name For Cache
+    if (RequestName.length > 1)
+        if (RequestName.substring(0, 1) == '<')
+            RequestName = "";
+
     if (!WithoutWebFormsSection)
         WebFormsValues = WebFormsValues.substring(11);
 
@@ -733,6 +696,29 @@ function cb_SetWebFormsValues(RequestName, WebFormsValues, UsePostBack, WithoutW
 
         if (!WebFormsList[i])
             continue;
+
+        // Checking Index Process
+        if (IndexHasStarted)
+        {
+            if (WebFormsList[i].substring(0, 1) == '#')
+                break;
+        }
+        else
+        {
+            if (StartIndexIsNumber)
+            {
+                if (WebFormsList[i].substring(0, 1) == '#')
+                    if (StartIndexIndex == IndexForStartIndex)
+                        IndexHasStarted = true;
+                    else
+                        IndexForStartIndex++;
+            }   
+            else
+                if (WebFormsList[i] == ("#=" + StartIndex))
+                    IndexHasStarted = true;
+
+                continue;
+        }
 
         var PreRunner = new Array();
         var FirstChar = WebFormsList[i].substring(0, 1);
@@ -1281,11 +1267,14 @@ function cb_SetValueToInput(ActionOperation, ActionFeature, ActionValue)
                     case 'a':
                         if (CurrentElement.hasAttribute(Value))
                             CurrentElement.removeAttribute(Value);
-
                         break;
                     case 'e':
                         if (Value == "1")
                             CurrentElement.outerHTML = "";
+                        break;
+                    case 'p':
+                        if (Value == "1")
+                            CurrentElement.parentElement.outerHTML = "";
                 }
                 break;
 
@@ -1614,6 +1603,28 @@ function cb_GetElementByElementPlace(ElementPlace, obj)
 
             return TmpPlace;
 
+        case '/':
+            var i = 0;
+            while (ElementPlace.length > 0)
+            {
+                if (ElementPlace.substring(0, 1) == '/')
+                    i++;
+                else
+                    break;
+
+                ElementPlace = ElementPlace.substring(1);
+            }
+
+            var TmpElementPlace = cb_GetElementByElementPlace(ElementPlace);
+
+            while (i > 0)
+            {
+                TmpElementPlace = TmpElementPlace.parentElement;
+                i--;
+            }
+
+            return TmpElementPlace;
+
         default: return FromPlace.getElementById(ElementPlace);
     }
 }
@@ -1661,6 +1672,7 @@ function cb_FetchValue(Value)
         case 'c':
             switch (ActionFeature)
             {
+                case 'o': return cb_GetCookie(Value);
                 case 's':
                 case 'l':
                     if (Value.Contains(','))
@@ -1765,6 +1777,66 @@ function cb_SetSession(Name, Value)
 }
 
 /* End Fetch Web-Forms */
+
+/* Start Cache */
+
+function cb_UsedCache(RequestName, RequestNameForCache)
+{
+    var SessionCacheValue = sessionStorage.getItem(RequestName);
+    if (SessionCacheValue)
+    {
+        cb_SetWebFormsValues(RequestNameForCache, SessionCacheValue, true, true);
+        return true;
+    }
+
+    var LocalCacheValue = localStorage.getItem(RequestName);
+    if (LocalCacheValue)
+    {
+        var LocalCacheDateValue = localStorage.getItem(RequestName + "-date");
+        if (LocalCacheDateValue)
+        {
+            var CacheDate = new Date(LocalCacheDateValue);
+            var CurrentDate = new Date();
+
+            if (CacheDate.getTime() > CurrentDate.getTime())
+            {
+                cb_SetWebFormsValues(RequestNameForCache, LocalCacheValue, true, true);
+                return true;
+            }
+            else
+            {
+                localStorage.removeItem(RequestName);
+                localStorage.removeItem(RequestName + "-date");
+            }
+        }
+        else
+        {
+            cb_SetWebFormsValues(RequestNameForCache, LocalCacheValue, true, true);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/* End Cache */
+
+/* Start Other Methods */
+
+function cb_GetCookie(Key)
+{
+    const Cookies = document.cookie.split(';');
+    for (let cookie of Cookies)
+    {
+        cookie = cookie.trim();
+        if (cookie.startsWith(Key + '='))
+            return cookie.substring(Key.length + 1);
+    }
+
+    return "";
+}
+
+/* End Other Methods */
 
 /* Start Extension Methods */
 
