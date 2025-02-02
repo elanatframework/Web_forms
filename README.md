@@ -370,6 +370,70 @@ bc<body>=green
 
 > Note: When a request is made with WebFormJS, a header with the name `Post-Back` and the value `true` is also sent to the server. Therefore, it is easy to determine the response approach on the server.
 
+## Multiple-Responses
+
+Multiple-Responses is a useful feature in WebFormsJS that allows us to send multiple related responses in a single server response. The multi-response feature is a functionality similar to a JavaScript file that contains multiple offline functions (things that are not requested from the server).
+
+In multiple-responses, action controls are separated by a `#` character. To execute the response, we need to add the `#` character and the index to the end of the path.
+
+Example:
+
+Response
+```
+[web-forms]
+bcTextBox1=green
+vi*h2:nth-of-type(2)=0
+#
+ta{my-textbox}1=right
+Eg{my-list}=onmouseenter|#
+fs<li>1=24px
+#
+ac(gender)2=my-css-class
+sv(email)=myemail@gmail.com
+#=MyIndex
+as[h2:nth-of-type(2)=margin:10px 20px
+bc<form>|<p>=violet
+tc<form>|<p>=yellow
+```
+
+**Path and result**
+
+Requesting `/my-view.aspx` or `/my-view.aspx#0`
+
+The following action controls are performed:
+```
+bcTextBox1=green
+vi*h2:nth-of-type(2)=0
+```
+
+Requesting `/my-view.aspx#1`
+
+The following action controls are performed:
+```
+ta{my-textbox}1=right
+Eg{my-list}=onmouseenter|#
+fs<li>1=24px
+```
+
+Requesting `/my-view.aspx#2`
+
+The following action controls are performed:
+```
+ac(gender)2=my-css-class
+sv(email)=myemail@gmail.com
+```
+
+Requesting `/my-view.aspx#MyIndex` or `/my-view.aspx#3`
+
+The following action controls are performed:
+```
+as[h2:nth-of-type(2)=margin:10px 20px
+bc<form>|<p>=violet
+tc<form>|<p>=yellow
+```
+
+> Note: Multiple-Responses are mostly used for offline cases and it is recommended to enable HTML headers for long-term client-side caching for multiple responses.
+
 ## PostBack and GetBack and TagBack method
 
 `PostBack` and `GetBack` are two methods in WebFormsJS.
