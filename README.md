@@ -311,6 +311,13 @@ Example:
 
 In the example above, the `My text string` is placed inside the third `li` tag which is inside the first `ul` tag, and the ul tag itself is a tag inside the tag whose class is equal to the value of `my-class`.
 
+You can also specify parent tags based on a tag.
+
+Example:
+`/<p>4`
+
+In the above example, the parent of the fifth `p` tag is selected. You can select higher parents by adding multiple slash characters `/`.
+
 ## Web-Forms tag
 
 WebFormsJS allows you to create `web-forms` tags on pages. The web-forms tags must have one of the `src` and `ac` attributes or both of them.
