@@ -5,18 +5,24 @@ WebFormsJS is the front-end part of the **WebForms Core technology** that commun
 
 WebFormsJS is a JavaScript library that provides the infrastructure for interacting with web controls in the [CodeBehind framework](https://github.com/elanatframework/Code_behind); this allows developers to easily manage HTML tags on the server-side.
 
-WebFormsJS is a new architecture similar to Microsoft's former Web-Forms, but has none of its disadvantages. The performance of WebFormsJS is much more than the previous Web-Forms, so that it manages all HTML tags.
+WebForms Core is a new architecture similar to Microsoft's former Web-Forms, but has none of its disadvantages. The performance of WebForms Core is much more than the previous Web-Forms, so that it manages all HTML tags.
 
-Using WebFormsJS allows the developers to focus on the server response and therefore there is no need to develop the front side and the developers set the controls on the server-side. WebFormsJS can also be used outside of the CodeBehind framework. In the rest of this article, we teach how to set the server response to interact with WebFormsJS.
+Using WebForms Core allows the developers to focus on the server response and therefore there is no need to develop the front side and the developers set the controls on the server-side. WebForms Core can also be used outside of the CodeBehind framework. In the rest of this article, we teach how to set the server response to interact with WebFormsJS.
 
-The bandwidth consumption when using WebFormsJS is very low. WebFormsJS is like a gasoline car that absorbs carbon pollution as much as it pollutes the air.
+The bandwidth consumption when using WebForms Core is very low. WebForms Core is like a gasoline car that absorbs carbon pollution as much as it pollutes the air.
 
-Advantages of using WebFormsJS:
+Advantages:
 
-- WebFormsJS provides features like postback, progress bar and script extraction.
-- WebForms is an advanced system that can be run with simple HTML pages without View or server script pages.
+- WebForms Core provides features like postback, progress bar and script extraction.
+- WebForms Core is an advanced system that can be run with simple HTML pages without View or server script pages.
 - WebFormsJS automatically sends form data through Ajax. WebFormsJS serializes form data as a string or a FormData object, depending on whether the form is multipart or not.
-- Using WebFormsJS reduces the complexity of web development.
+- Using WebForms Core technology reduces the complexity of web development.
+
+## How to use
+
+To use WebForms Core technology, it is enough to add the WebFormsJS library in the head section of HTML and get the WebForms class associated with the server programming language from the [WebForms class](https://github.com/elanatframework/Web_forms_classes) repository.
+
+> Note: In WebForms Core technology, the WebFormsJS library automatically communicates with the WebForms class on the server; therefore, you do not need to read the description of this repository. To use this technology, it is enough to become familiar with the classes and methods of the [WebForms class](https://github.com/elanatframework/Web_forms_classes) on the server.
 
 ## Options
 
