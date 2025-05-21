@@ -39,6 +39,7 @@ PostBackOptions.SetResponseInsideDivTag = true;
 PostBackOptions.ProgressBarStyle = "width:100%;min-width:300px;max-width:600px;background-color:#eee;margin:2px 0px";
 PostBackOptions.ProgressBarPercentLoadedStyle = "position:absolute;padding:0px 4px;line-height:22px";
 PostBackOptions.ProgressBarValueStyle = "height:20px;background-color:#4D93DD;width:0%";
+PostBackOptions.AddLogForWebSockets = true;
 ```
 WebFormsJS options:
 
@@ -52,6 +53,7 @@ WebFormsJS options:
 - ProgressBarStyle: Styles for progress bar
 - ProgressBarPercentLoadedStyle: Styles for percentage and text size for progress bar
 - ProgressBarValueStyle: Styles for uploading animation for progress bar
+- AddLogForWebSockets: Enabling this option will log connections, disconnections, and data sent between the server and client in WebSocket protocol.
 
 ## Action Controls
 
@@ -439,6 +441,22 @@ tc<form>|<p>=yellow
 ```
 
 > Note: Multiple-Responses are mostly used for offline cases and it is recommended to enable HTML headers for long-term client-side caching for multiple responses.
+
+## Uisng WebSocket
+
+WebForms Core technology also supports the WebSocket protocol.
+
+Sending data in WebSocket mode is also possible with form submission. In order to send data under the WebSocket protocol, you must either enable the use of WebForms class methods on the server. Of course, you can also send under the WebSocket protocol by adding the `usewebsocket` attribute to the form tag.
+
+Example:
+```html
+<form action="/mypage" method="post" usewebsocket>
+	Text
+	<br>
+	<textarea name="Textarea1"></textarea><br><br>
+	<input type="submit" name="Button1" value="Send">
+</form>
+```
 
 ## PostBack and GetBack and TagBack method
 
