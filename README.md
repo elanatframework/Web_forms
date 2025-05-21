@@ -106,7 +106,7 @@ The following items are added to the available amount:
 - al: **Add Title** - Value: `Title`
 - at: **Add Text** - Value: `Text` (string value `$[ln];` it replaces by `\n` character)
 - pt: **Add Text To Up** - Value: `Text` (string value `$[ln];` it replaces by `\n` character)
-- aa: **Add Attribute** - Value: `Attribute|Value`
+- aa: **Add Attribute** - Value: `Attribute|{Value}`
 - nt: **Add Tag** - Value: `TagName|Id`
 - ut: **Add Tag To Up** - Value: `TagName|Id`
 - bt: **Add Tag Before This Tag** - Value: `TagName|Id`
@@ -124,7 +124,7 @@ The following replaces the existing values:
 - sk: **Set Checked** - Value: For input with checked type `1 or 0` - For any tags `Value|Text|1 or 0`
 - sl: **Set Title** - Value: `Title`
 - st: **Set Text** - Value: `Text` (string value `$[ln];` it replaces by `\n` character)
-- sa: **Set Attribute** - Value: `Attribute|Value`
+- sa: **Set Attribute** - Value: `Attribute|{Value}`
 - sw: **Set Width** - Value: `Width`
 - sh: **Set Height** - Value: `Height`
 - bc: **Set Background Color** - Value: `Color`
@@ -157,7 +157,7 @@ The following items are added only if there are no pre-existing values:
 - ik: **Insert CheckBox Tag** - Value: `Value|Text|1 or 0`
 - il: **Insert Title** - Value: `Title`
 - it: **Insert Text** - Value: `Text` (string value `$[ln];` it replaces by `\n` character)
-- ia: **Insert Attribute** - Value: `Attribute|Value`
+- ia: **Insert Attribute** - Value: `Attribute|{Value}`
 
 ### Delete
 
@@ -458,7 +458,7 @@ Example:
 </form>
 ```
 
-## PostBack and GetBack and TagBack method
+## PostBack and GetBack and TagBack method and WebSocketBack 
 
 `PostBack` and `GetBack` are two methods in WebFormsJS.
 
@@ -504,3 +504,11 @@ The above method renders the action control of the last web-forms tag whose clas
 Example web-forms tag
 
 `<web-forms class="my-class" ac="bc<body>=red"></web-forms>`
+
+`WebSocketBack` method creates a WebSocket connection along the path of the passed argument.
+
+Example:
+
+`WebSocketBack("/YourURL")`
+
+The above method creates a WebSocket connection to the path "/YourURL".
