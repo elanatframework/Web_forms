@@ -420,7 +420,7 @@ fs<li>1=24px
 #
 ac(gender)2=my-css-class
 sv(email)=myemail@gmail.com
-#=My
+#=MyIndex
 as[h2:nth-of-type(2)=margin:10px 20px
 bc<form>|<p>=violet
 tc<form>|<p>=yellow
