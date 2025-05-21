@@ -210,12 +210,16 @@ The following add event types to HTML tags:
 - EG: **Set Get Event In Form Listener** - Value: `Html Event Listener|{Output Place}`
 - Et: **Set Tag Event** - Value: `Html Event|{Output Place}`
 - ET: **Set Tag Event Listener** - Value: `Html Event Listener|{Output Place}`
+- Ew: **Set WebSocket Event** - Value: `Html Event|Path`
+- EW: **Set WebSocket Event Listener** - Value: `Html Event Listener|Path`
 - Rp: **Remove Post Event** - Value: `Html Event`
 - RP: **Remove Post Event Listener** - Value: `Html Event Listener`
 - Rg: **Remove Get Event** - Value: `Html Event`
 - RG: **Remove Get Event Listener** - Value: `Html Event Listener`
 - Rt: **Remove Tag Event** - Value: `Html Event`
 - RT: **Remove Tag Event Listener** - Value: `Html Event Listener`
+- Rt: **Remove WebSocket Event** - Value: `Html Event`
+- RT: **Remove WebSocket Event Listener** - Value: `Html Event Listener`
 
 ### Save
 
@@ -297,6 +301,24 @@ Example:
 
 The above example is the same as the previous example, except that it is executed after 10 seconds.
 
+### Index
+
+The following items are related to multiple answers:
+
+- #: **Start Index** - Value: `{Name}`
+
+### Enable
+
+The following items enable and disable some features:
+
+- ew: **Enable WebSocket** - Value: `@ (for enable once) or 1 or 0`
+
+### Use
+
+The following items determine the use of some features:
+
+- uw: **Use WebSocket** - Value: `path`
+
 ## Define the tag
 
 After the first two characters, there are 6 status types that define the tag:
@@ -308,7 +330,7 @@ After the first two characters, there are 6 status types that define the tag:
 - Based on `query`: Identifies the tag based on the `query`. The query string is placed after the (`*`) character , and then the character (`=`) is placed after it. If there are equal characters (`=`) in the query value, they should be replaced by `$[eq];` string.
 - Based on `query all`: It applies to multiple tags and identifies tags based on "query". The query string is placed after the (`[`) character , and then the character (`=`) is placed after it. If there are equal characters (`=`) in the query value, they should be replaced by `$[eq];` string.
 
-> Note: By default, the indexes of the `name`, `class name`, and `tag name` are set to `0`.
+> Note: By default, the es of the `name`, `class name`, and `tag name` are set to `0`.
 
 Example: Action control with the value `de<li>=1` is not different from the value `de<li>0=1`.
 
@@ -382,7 +404,7 @@ bc<body>=green
 
 Multiple-Responses is a useful feature in WebFormsJS that allows us to send multiple related responses in a single server response. The multi-response feature is a functionality similar to a JavaScript file that contains multiple offline functions (things that are not requested from the server).
 
-In multiple-responses, action controls are separated by a `#` character. To execute the response, we need to add the `#` character and the index to the end of the path.
+In multiple-responses, action controls are separated by a `#` character. To execute the response, we need to add the `#` character and the  to the end of the path.
 
 Example:
 
@@ -398,7 +420,7 @@ fs<li>1=24px
 #
 ac(gender)2=my-css-class
 sv(email)=myemail@gmail.com
-#=MyIndex
+#=My
 as[h2:nth-of-type(2)=margin:10px 20px
 bc<form>|<p>=violet
 tc<form>|<p>=yellow
