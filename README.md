@@ -568,3 +568,17 @@ Example:
 `<a href="https://example.com" id="myLink" onclick="PreventDefault(event)">Go to Example</a>`
 
 Normally, clicking the link would take you to example.com. PreventDefault method stops that action and does something else—like showing an alert.
+
+`StopPropagation` prevents the event from occurring on its parent tags.
+
+Example:
+
+`StopPropagation(event)`
+
+```html
+<div onclick="alert('DIV clicked!')">
+  <button onclick="StopPropagation(event)">Click Me</button>
+</div>
+```
+
+In the above example, the alert is not displayed when the button is clicked.
