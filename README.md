@@ -106,11 +106,12 @@ The following items are added to the available amount:
 - al: **Add Title** - Value: `Title`
 - at: **Add Text** - Value: `Text` (string value `$[ln];` it replaces by `\n` character)
 - pt: **Add Text To Up** - Value: `Text` (string value `$[ln];` it replaces by `\n` character)
-- aa: **Add Attribute** - Value: `Attribute|{Value}`
+- aa: **Add Attribute** - Value: `Attribute|{Splitter}|{Value}`
 - nt: **Add Tag** - Value: `TagName|Id`
 - ut: **Add Tag To Up** - Value: `TagName|Id`
-- bt: **Add Tag Before This Tag** - Value: `TagName|Id`
-- ft: **Add Tag After This Tag** - Value: `TagName|Id`
+- bt: **Add Tag Before This Tag** - Value: `TagName|{Id}`
+- ft: **Add Tag After This Tag** - Value: `TagName|{Id}`
+- ah: **Add Hidden Tag** - Value: `Value|{Id}`
 
 ### Set
 
@@ -157,7 +158,7 @@ The following items are added only if there are no pre-existing values:
 - ik: **Insert CheckBox Tag** - Value: `Value|Text|1 or 0`
 - il: **Insert Title** - Value: `Title`
 - it: **Insert Text** - Value: `Text` (string value `$[ln];` it replaces by `\n` character)
-- ia: **Insert Attribute** - Value: `Attribute|{Value}`
+- ia: **Insert Attribute** - Value: `Attribute|{Splitter}|{Value}`
 
 ### Delete
 
