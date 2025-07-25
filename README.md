@@ -328,6 +328,7 @@ The above example is the same as the previous example, except that it is execute
 The following items are related to multiple answers:
 
 - #: **Start Index** - Value: `{Name}`
+- &: **Go To** - Value: `Number (Line) or #Index|Repeat`
 
 ### Enable
 
