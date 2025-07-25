@@ -254,16 +254,16 @@ The following items are permanently stored in local storag.
 - @cc: **Cache Class** - Value: `Key`
 - @cs: **Cache Style** - Value: `Key`
 - @cl: **Cache Title** - Value: `Key`
-- @ct: **Save Text** - Value: `Key`
-- @cg: **Save Text Length** - Value: `Key`
-- @ca: **Save Attribute** - Value: `Key|Attribute`
-- @cw: **Save Width** - Value: `Key`
-- @ch: **Save Height** - Value: `Key`
-- @cr: **Save Read Only** - Value: `Key`
-- @cx: **Save Selected Index** - Value: `Key`
-- @Ta: **Save Text Align** - Value: `Key`
-- @Nl: **Save Child Nodes Length** - Value: `Key`
-- @Vi: **Save Visible** - Value: `Key`
+- @ct: **Cache Text** - Value: `Key`
+- @cg: **Cache Text Length** - Value: `Key`
+- @ca: **Cache Attribute** - Value: `Key|Attribute`
+- @cw: **Cache Width** - Value: `Key`
+- @ch: **Cache Height** - Value: `Key`
+- @cr: **Cache Read Only** - Value: `Key`
+- @cx: **Cache Selected Index** - Value: `Key`
+- @Ta: **Cache Text Align** - Value: `Key`
+- @Nl: **Cache Child Nodes Length** - Value: `Key`
+- @Vi: **Cache Visible** - Value: `Key`
 
 ### Fetch
 
