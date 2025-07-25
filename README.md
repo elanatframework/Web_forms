@@ -223,7 +223,7 @@ The following add event types to HTML tags:
 
 ### Save
 
-The following items are temporarily stored and deleted after being called.
+The following items are temporarily stored in session storag.
 
 - @gi: **Save Id** - Value: `Key`
 - @gn: **Save Name** - Value: `Key`
@@ -242,6 +242,28 @@ The following items are temporarily stored and deleted after being called.
 - @ta: **Save Text Align** - Value: `Key`
 - @nl: **Save Child Nodes Length** - Value: `Key`
 - @vi: **Save Visible** - Value: `Key`
+
+### Cache
+
+The following items are permanently stored in local storag.
+
+- @ci: **Cache Id** - Value: `Key`
+- @cn: **Cache Name** - Value: `Key`
+- @cv: **Cache Value** - Value: `Key`
+- @ce: **Cache Value Length** - Value: `Key`
+- @cc: **Cache Class** - Value: `Key`
+- @cs: **Cache Style** - Value: `Key`
+- @cl: **Cache Title** - Value: `Key`
+- @ct: **Save Text** - Value: `Key`
+- @cg: **Save Text Length** - Value: `Key`
+- @ca: **Save Attribute** - Value: `Key|Attribute`
+- @cw: **Save Width** - Value: `Key`
+- @ch: **Save Height** - Value: `Key`
+- @cr: **Save Read Only** - Value: `Key`
+- @cx: **Save Selected Index** - Value: `Key`
+- @Ta: **Save Text Align** - Value: `Key`
+- @Nl: **Save Child Nodes Length** - Value: `Key`
+- @Vi: **Save Visible** - Value: `Key`
 
 ### Fetch
 
