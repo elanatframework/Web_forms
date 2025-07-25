@@ -504,7 +504,7 @@ Example:
 </form>
 ```
 
-## PostBack and GetBack and TagBack method and WebSocketBack 
+## Interactive methods
 
 `PostBack` and `GetBack` are two methods in WebFormsJS.
 
@@ -558,3 +558,13 @@ Example:
 `WebSocketBack(event, "/YourURL")`
 
 The above method creates a WebSocket connection to the path "/YourURL".
+
+`PreventDefault` method prevents default browser behavior associated with specific tag-driven events
+
+Example:
+
+`PreventDefault(event)`
+
+`<a href="https://example.com" id="myLink" onclick="PreventDefault(event)">Go to Example</a>`
+
+Normally, clicking the link would take you to example.com. PreventDefault method stops that action and does something else—like showing an alert.
