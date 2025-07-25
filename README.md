@@ -512,28 +512,28 @@ Example:
 
 There are three overloads for the `GetBack` method:
 
-- **`GetBack()`:** Requests the current URL path executed in the browser.
-- **`GetBack(this)`:** Should be used only in situations where the form tag must be present on the page. If executed inside a form, the action path requests the form, otherwise it requests the path of the first form on the page.
-- **`GetBack("YourURL")`:** Requests the URL path entered as an argument.
+- **`GetBack(event)`:** Requests the current URL path executed in the browser.
+- **`GetBack(event, this)`:** Should be used only in situations where the form tag must be present on the page. If executed inside a form, the action path requests the form, otherwise it requests the path of the first form on the page.
+- **`GetBack(event, "YourURL")`:** Requests the URL path entered as an argument.
 
-Calling WebFormJS in HTML pages causes submit buttons to automatically get the onclick attribute with `PostBack(this)` value.
+Calling WebFormJS in HTML pages causes submit buttons to automatically get the onclick attribute with `PostBack(event)` value.
 
-`<input name="btn_Button" type="submit" value="Click to send data" onclick="PostBack(this)"/>`
+`<input name="btn_Button" type="submit" value="Click to send data" onclick="PostBack(event)"/>`
 
 If you call the `PostBack` method as below, the contents of the page will remain and the values ​​will be added to the beginning of the inner content of the body tag.
 
-`PostBack(this, true)`
+`PostBack(event, true)`
 
 You can specify where to add content instead of true.
 
 Example1:
 
-`PostBack(this, "<div>2")`
+`PostBack(event, "<div>2")`
 The above method places the data received from the server inside the third `div` tag.
 
 Example2:
 
-`PostBack(this, "MyTagId")`
+`PostBack(event, "MyTagId")`
 The above method puts the data received from the server inside a tag or `MyTagId` id.
 
 > Note: Examples 1 and 2 for the `GetBack` method also have the same function.
@@ -542,7 +542,7 @@ The above method puts the data received from the server inside a tag or `MyTagId
 
 Example:
 
-`TagBack ("(my-class)-1")`
+`TagBack (event, "(my-class)-1")`
 The above method renders the action control of the last web-forms tag whose class name is my-class.
 
 Example web-forms tag
@@ -553,6 +553,6 @@ Example web-forms tag
 
 Example:
 
-`WebSocketBack("/YourURL")`
+`WebSocketBack(event, "/YourURL")`
 
 The above method creates a WebSocket connection to the path "/YourURL".
