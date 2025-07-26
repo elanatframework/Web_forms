@@ -284,6 +284,20 @@ The following values ​​are built-in functions that are placed after the equa
 - @cl: **Sessioc Cache Then Delete It** - Value `Key|Replacement value`
 - @cd: **Cache** - Value `Key|Replacement value`
 - @ct: **Cache Then Delete It** - Value `Key|Replacement value`
+- @_: **Script** - Value `Script text`
+- @lu: **Script** - Value `Url`
+- @lL: **Session Cache Line** - Value `Key[{Line} (without this, it reads the first line then deletes it)`
+- @lI: **Session Cache INI** - Value `Key[{INIKey}`
+- @dL: **Cache Line** - Value `Key[{Line} (without this, it reads the first line then deletes it)`
+- @dI: **Cache INI** - Value `Key[{INIKey}`
+- @ek: **Event Key**
+- @ew: **Event Which**
+- @ex: **Event Client X**
+- @ey: **Event Client Y**
+- @eX: **Event Page X**
+- @eY: **Event Page Y**
+- @Ex: **Event Offset X**
+- @Ey: **Event Offset Y**
 
 > Note: Action controls are executed sequentially; if an action control decides to change an `id` attribute from a tag, subsequent action controls cannot perform actions with the previous `id` attribute.
 
