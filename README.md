@@ -234,6 +234,7 @@ The following items are temporarily stored in session storag.
 - @gs: **Save Style** - Value: `Key`
 - @gl: **Save Title** - Value: `Key`
 - @gt: **Save Text** - Value: `Key`
+- @go: **Save Outer Text** - Value: `Key`
 - @gg: **Save Text Length** - Value: `Key`
 - @ga: **Save Attribute** - Value: `Key|Attribute`
 - @gw: **Save Width** - Value: `Key`
@@ -243,6 +244,8 @@ The following items are temporarily stored in session storag.
 - @ta: **Save Text Align** - Value: `Key`
 - @nl: **Save Child Nodes Length** - Value: `Key`
 - @vi: **Save Visible** - Value: `Key`
+- @gu: **Save Url** - Value: `Key|Url`
+- @gI: **Save Index** - Value: `Key`
 
 ### Cache
 
@@ -256,6 +259,7 @@ The following items are permanently stored in local storag.
 - @cs: **Cache Style** - Value: `Key`
 - @cl: **Cache Title** - Value: `Key`
 - @ct: **Cache Text** - Value: `Key`
+- @co: **Cache Outer Text** - Value: `Key`
 - @cg: **Cache Text Length** - Value: `Key`
 - @ca: **Cache Attribute** - Value: `Key|Attribute`
 - @cw: **Cache Width** - Value: `Key`
@@ -265,6 +269,8 @@ The following items are permanently stored in local storag.
 - @Ta: **Cache Text Align** - Value: `Key`
 - @Nl: **Cache Child Nodes Length** - Value: `Key`
 - @Vi: **Cache Visible** - Value: `Key`
+- @cu: **Cache Url** - Value: `Key|Url`
+- @cI: **Cache Index** - Value: `Key`
 
 ### Fetch
 
