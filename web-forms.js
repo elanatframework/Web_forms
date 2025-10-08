@@ -1338,13 +1338,13 @@ function cb_SetWebFormsValues(evt, RequestName, WebFormsValues, UsePostBack, Wit
 
                 if (ConditionPeriodMiliSecond == 0)
                 {
-                    while (!cb_CheckCondition(evt, WebFormsList[i]))
+                    while (!cb_CheckCondition(evt, WebFormsList[i].substring(1)))
                     { 
                     }
                     ConditionIsTrue = true;
                 }
                 else if (ConditionPeriodMiliSecond == -1)
-                    ConditionIsTrue = cb_CheckCondition(evt, WebFormsList[i]);
+                    ConditionIsTrue = cb_CheckCondition(evt, WebFormsList[i].substring(1));
                 continue;
 
             case '_':
@@ -4413,7 +4413,7 @@ function cb_SaveValueExtension(evt, ActionOperation, ActionFeature, Name, Curren
             switch (ActionFeature)
             {
                 case '0': cb_SetStorage(true, Name, "Hello saved in local storage"); break;
-                case '1': cb_SetStorage(false, Name, "Hello saved in session storage"); break;
+                case '1': cb_SetStorage(false, Name, "Hello saved in session storage");
             }
     }
 }
