@@ -22,23 +22,6 @@ Advantages:
 
 To use WebForms Core technology, it is enough to add the WebFormsJS library in the head section of HTML and get the WebForms class associated with the server programming language from the [WebForms class](https://github.com/elanatframework/Web_forms_classes) repository.
 
-## Options
-
-At the beginning of the web-forms.js file, there are WebFormsJS customization options. The following codes show the options of this file:
-```javascript
-var PostBackOptions = new Object();
-PostBackOptions.UseProgressBar = true;
-PostBackOptions.UseConnectionErrorMessage = true;
-PostBackOptions.ConnectionErrorMessage = "Connection Error";
-PostBackOptions.AutoSetSubmitOnClick = true;
-PostBackOptions.SendDataOnlyByPostMethod = false;
-PostBackOptions.WebFormsTagsBackgroundColor = "#eee";
-PostBackOptions.SetResponseInsideDivTag = true;
-PostBackOptions.ProgressBarStyle = "width:100%;min-width:300px;max-width:600px;background-color:#eee;margin:2px 0px";
-PostBackOptions.ProgressBarPercentLoadedStyle = "position:absolute;padding:0px 4px;line-height:22px";
-PostBackOptions.ProgressBarValueStyle = "height:20px;background-color:#4D93DD;width:0%";
-PostBackOptions.AddLogForWebSockets = true;
-```
 ## Action Controls
 
 Action Controls are WebFormsJS received codes that are received in INI format. WebFormsJS automatically detects whether the server response has Action Controls or not. If the server's response is based on the structure of an INI file that starts with `[web-forms]`, it will process the Action Controls, otherwise it will replace the server's response in the form of Ajax on the page.
@@ -363,4 +346,5 @@ Example:
 ```
 
 In the above example, the alert is not displayed when the button is clicked.
+
 
