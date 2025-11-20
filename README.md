@@ -1,22 +1,22 @@
 ![ ](https://github.com/user-attachments/assets/e44373ab-751f-4cea-83a0-93161aaae9d2)
 # WebFormsJS
 
-WebFormsJS is the front-end part of the **WebForms Core technology** that communicates with the [WebForms class](https://github.com/elanatframework/Web_forms_classes) on the back-end.
+**WebFormsJS** is the front-end component of **WebForms Core technology**, responsible for communicating with the back-end through the [WebForms class](https://github.com/elanatframework/Web_forms_classes).
 
-WebFormsJS is a JavaScript library that provides the infrastructure for interacting with web controls in the [CodeBehind framework](https://github.com/elanatframework/Code_behind); this allows developers to easily manage HTML tags on the server-side.
+As a JavaScript library, **WebFormsJS** provides the client-side infrastructure for interacting with web controls in the [CodeBehind framework](https://github.com/elanatframework/Code_behind). This enables developers to manage and manipulate HTML elements entirely from the server side.
 
-WebForms Core is a new architecture similar to Microsoft's former Web-Forms, but has none of its disadvantages. The performance of WebForms Core is much more than the previous Web-Forms, so that it manages all HTML tags.
+**WebForms Core** is a modern architecture inspired by Microsoft’s former Web Forms model, but without its limitations. It delivers significantly higher performance, allowing it to manage all HTML elements efficiently and with minimal overhead.
 
-Using WebForms Core allows the developers to focus on the server response and therefore there is no need to develop the front side and the developers set the controls on the server-side. WebForms Core can also be used outside of the CodeBehind framework. In the rest of this article, we teach how to set the server response to interact with WebFormsJS.
+By using WebForms Core, developers can focus solely on generating the server response—there is no need to build a separate front end. Controls are defined and configured on the server, and WebForms Core handles the client-side behavior automatically. It can also operate independently of the CodeBehind framework. Later in this article, we will explain how to structure server responses to communicate effectively with WebFormsJS.
 
-The bandwidth consumption when using WebForms Core is very low. WebForms Core is like a gasoline car that absorbs carbon pollution as much as it pollutes the air.
+One of the notable strengths of WebForms Core is its extremely low bandwidth consumption. In this sense, it is like a gasoline car that absorbs as much carbon as it emits—a system that offsets much of its own cost.
 
-Advantages:
+### Advantages
 
-- WebForms Core provides features like postback, progress bar and script extraction.
-- WebForms Core is an advanced system that can be run with simple HTML pages without View or server script pages.
-- WebFormsJS automatically sends form data through Ajax. WebFormsJS serializes form data as a string or a FormData object, depending on whether the form is multipart or not.
-- Using WebForms Core technology reduces the complexity of web development.
+* **Provides powerful built-in features**, including postback handling, progress bars, and automatic script extraction.
+* **Runs on simple HTML pages**, without the need for views or server-side script pages.
+* **Automatically sends form data via Ajax**: WebFormsJS serializes form data as either a string or a `FormData` object, depending on whether the form is multipart.
+* **Reduces development complexity** by allowing developers to manage the entire interaction workflow on the server.
 
 ## How to use
 
@@ -74,6 +74,7 @@ Each Pre Runner usually consists of one character, followed by the values ​​
 
 - :: **Delay** - Value: `Second`
 - (: **Period** - Value: `Second`
+- ,: **Repeat** - Value: `Second`
 
 Example:
 
@@ -100,16 +101,18 @@ The following items are related to multiple answers:
 
 After the first two characters, there are 6 status types that define the tag:
 
-- Based on `id`: Based on the name of the `id`, it recognizes the tag and the character (`=`) is placed immediately after it.
-- By `name`: Identifies the tag based on the `name` attribute. It is placed in open and closed parentheses (`(Name)`), and if a number is placed after it, it specifies the index, and then the (`=`) character is placed after it.
-- Based on the `tag name`: Based on the `tag name`, it recognizes the tag. It is placed inside the smaller and larger signs (`<tag name>)`), and if a number is placed after it, it specifies the index, and then the (`=`) character is placed after it.
-- Based on `class name`: Identifies the tag based on the `class name`. It is placed in open and closed brackets (`{class name}`), and if a number is placed after it, it specifies the index, and then the character (`=`) is placed after it.
+- Based on `id`: Based on the name of the `id`, it recognizes the tag.
+- By `name`: Identifies the tag based on the `name` attribute. It is placed in open and closed parentheses (`(Name)`), and if a number is placed after it, it specifies the index.
+- Based on the `tag name`: Based on the `tag name`, it recognizes the tag. It is placed inside the smaller and larger signs (`<tag name>)`), and if a number is placed after it, it specifies the index.
+- Based on `class name`: Identifies the tag based on the `class name`. It is placed in open and closed brackets (`{class name}`), and if a number is placed after it, it specifies the index.
 - Based on `query`: Identifies the tag based on the `query`. The query string is placed after the (`*`) character , and then the character (`=`) is placed after it. If there are equal characters (`=`) in the query value, they should be replaced by `$[eq];` string.
 - Based on `query all`: It applies to multiple tags and identifies tags based on "query". The query string is placed after the (`[`) character , and then the character (`=`) is placed after it. If there are equal characters (`=`) in the query value, they should be replaced by `$[eq];` string.
+- Based on `head`: Identifies the head tag. Denotes the head with the caret character (`^`).
+- Based on `Upper`: Selects the last tag detected. The dash character (`-`) indicates the previous tag. It is used to reduce bandwidth consumption and is also available sequentially.
 
-> Note: By default, the es of the `name`, `class name`, and `tag name` are set to `0`.
+> Note: By default, the `name`, `class name`, and `tag name` are set to `0`.
 
-Example: Action control with the value `de<li>=1` is not different from the value `de<li>0=1`.
+Example: Action control with the value `de<li>=1` is not different from the value `de<li>0=1`. Calculates negative numbers from the end. For example, -1 is the last tag.
 
 You can also specify the desired tag nested (query all is not supported in this case).
 
@@ -346,5 +349,6 @@ Example:
 ```
 
 In the above example, the alert is not displayed when the button is clicked.
+
 
 
