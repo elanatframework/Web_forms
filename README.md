@@ -22,8 +22,6 @@ Advantages:
 
 To use WebForms Core technology, it is enough to add the WebFormsJS library in the head section of HTML and get the WebForms class associated with the server programming language from the [WebForms class](https://github.com/elanatframework/Web_forms_classes) repository.
 
-> Note: In WebForms Core technology, the WebFormsJS library automatically communicates with the WebForms class on the server; therefore, you do not need to read the description of this repository. To use this technology, it is enough to become familiar with the classes and methods of the [WebForms class](https://github.com/elanatframework/Web_forms_classes) on the server.
-
 ## Options
 
 At the beginning of the web-forms.js file, there are WebFormsJS customization options. The following codes show the options of this file:
@@ -41,20 +39,6 @@ PostBackOptions.ProgressBarPercentLoadedStyle = "position:absolute;padding:0px 4
 PostBackOptions.ProgressBarValueStyle = "height:20px;background-color:#4D93DD;width:0%";
 PostBackOptions.AddLogForWebSockets = true;
 ```
-WebFormsJS options:
-
-- UseProgressBar: If there is a file input in the form, the progress bar will show the amount of data sent on the screen.
-- UseConnectionErrorMessage: Enabling this option causes the error text to be displayed.
-- ConnectionErrorMessage: The text to display when an error occurs.
-- AutoSetSubmitOnClick: Enabling this option makes submit type inputs automatically send data through WebFormsJS.
-- SendDataOnlyByPostMethod: Enabling this option causes the data to be sent with the Post method; Therefore, the form method is ignored.
-- WebFormsTagsBackgroundColor: Before rendering the web-forms tags, it gives a default color to their background to improve the user experience.
-- SetResponseInsideDivTag: Enabling this option determines whether the server response will be placed inside the div tag or not.
-- ProgressBarStyle: Styles for progress bar
-- ProgressBarPercentLoadedStyle: Styles for percentage and text size for progress bar
-- ProgressBarValueStyle: Styles for uploading animation for progress bar
-- AddLogForWebSockets: Enabling this option will log connections, disconnections, and data sent between the server and client in WebSocket protocol.
-
 ## Action Controls
 
 Action Controls are WebFormsJS received codes that are received in INI format. WebFormsJS automatically detects whether the server response has Action Controls or not. If the server's response is based on the structure of an INI file that starts with `[web-forms]`, it will process the Action Controls, otherwise it will replace the server's response in the form of Ajax on the page.
@@ -91,220 +75,6 @@ The first two characters determine the action code. For example, things like add
 
 After the first two letters, there are 6 status types that specify the tag. Then the equal character is placed and after that the values ​​are placed.
 
-Below is the list of all action codes:
-
-### Add
-
-The following items are added to the available amount:
-- ai: **Add Id** - Value: `Id`
-- an: **Add Name** - Value: `Name`
-- av: **Add Value** - Value: `Value`
-- ac: **Add Class** - Value: `Class`
-- as: **Add Style** - Value: `Style`
-- ao: **Add Option Tag** - Value: `Value|Text|1 or 0`
-- ak: **Add CheckBox Tag** - Value: `Value|Text|1 or 0`
-- al: **Add Title** - Value: `Title`
-- at: **Add Text** - Value: `Text` (string value `$[ln];` it replaces by `\n` character)
-- pt: **Add Text To Up** - Value: `Text` (string value `$[ln];` it replaces by `\n` character)
-- aa: **Add Attribute** - Value: `Attribute|{Splitter}|{Value}`
-- nt: **Add Tag** - Value: `TagName|Id`
-- ut: **Add Tag To Up** - Value: `TagName|Id`
-- bt: **Add Tag Before This Tag** - Value: `TagName|{Id}`
-- ft: **Add Tag After This Tag** - Value: `TagName|{Id}`
-- ah: **Add Hidden Tag** - Value: `Value|{Id}`
-
-### Set
-
-The following replaces the existing values:
-- si: **Set Id** - Value: `Id`
-- sn: **Set Name** - Value: `Name`
-- sv: **Set Value** - Value: `Value`
-- sc: **Set Class** - Value: `Class`
-- ss: **Set Style** - Value: `Style`
-- so: **Set Option Tag** - Value: `Value|Text|1 or 0`
-- sk: **Set Checked** - Value: For input with checked type `1 or 0` - For any tags `Value|Text|1 or 0`
-- sl: **Set Title** - Value: `Title`
-- st: **Set Text** - Value: `Text` (string value `$[ln];` it replaces by `\n` character)
-- sa: **Set Attribute** - Value: `Attribute|{Value}`
-- sw: **Set Width** - Value: `Width`
-- sh: **Set Height** - Value: `Height`
-- bc: **Set Background Color** - Value: `Color`
-- tc: **Set Text Color** - Value: `Color`
-- fn: **Set Font Name** - Value: `Name`
-- fs: **Set Font Size** - Value: `Size`
-- fb: **Set Font Bold** - Value: `1 or 0`
-- vi: **Set Visible** - Value: `1 or 0`
-- ta: **Set Text Align** - Value: `Align`
-- sr: **Set Read Only** - Value: `1 or 0`
-- sf: **Set Focus** - Value: `1 or 0`
-- sd: **Set Disabled** - Value: `1 or 0`
-- mn: **Set Min Length** - Value: `Length`
-- mx: **Set Max Length** - Value: `Length`
-- ts: **Set Selected Value** - Value: `Value`
-- ti: **Set Selected Index** - Value: `Index`
-- ks: **Set Checked Value** - Value: `Value|1 or 0`
-- ki: **Set Checked Index** - Value: `Index|1 or 0`
-- cu: **Change Browser URL** - Value: `URL`
-
-### Insert
-
-The following items are added only if there are no pre-existing values:
-- ii: **Insert Id** - Value: `Id`
-- in: **Insert Name** - Value: `Name`
-- iv: **Insert Value** - Value: `Value`
-- ic: **Insert Class** - Value: `Class`
-- is: **Insert Style** - Value: `Style`
-- io: **Insert Option Tag** - Value: `Value|Text|1 or 0`
-- ik: **Insert CheckBox Tag** - Value: `Value|Text|1 or 0`
-- il: **Insert Title** - Value: `Title`
-- it: **Insert Text** - Value: `Text` (string value `$[ln];` it replaces by `\n` character)
-- ia: **Insert Attribute** - Value: `Attribute|{Splitter}|{Value}`
-
-### Delete
-
-The following will remove the current values:
-
-- di: **Delete Id** - Value: `1`
-- dn: **Delete Name** - Value: `1`
-- dv: **Delete Value** - Value: `1`
-- dc: **Delete Class** - Value: `Class`
-- ds: **Delete Style** - Value: `Style` (only the style name is entered without a value)
-- do: **Delete Option Tag** - Value: `Value or * (all tag)`
-- dk: **Delete CheckBox Tag** - Value: `Value or * (all tag)`
-- dl: **Delete Title** - Value: `1`
-- dt: **Delete Text** - Value: `1`
-- da: **Delete Attribute** - Value: `Attribute`
-- de: **Delete Tag** - Value: `1`
-- dp: **Delete Parent Tag** - Value: `1`
-
-### Increase
-
-The following increment the current numeric values:
-
-- +n: **Increase Minimum Length** - Value: `Number`
-- +x: **Increase Maximum Length** - Value: `Number`
-- +f: **Increase Font Size** - Value: `Number`
-- +w: **Increase Width** - Value: `Number`
-- +h: **Increase Height** - Value: `Number`
-- +v: **Increase Value** - Value: `Number`
-
-### Descrease
-
-The following decrease the current numerical values:
-
-- -n: **Descrease Minimum Length** - Value: `Number`
-- -x: **Descrease Maximum Length** - Value: `Number`
-- -f: **Descrease Font Size** - Value: `Number`
-- -w: **Descrease Width** - Value: `Number`
-- -h: **Descrease Height** - Value: `Number`
-- -v: **Descrease Value** - Value: `Number`
-
-### Event
-
-The following add event types to HTML tags:
-
-- Ep: **Set Post Event** - Value: `Html Event|* (for add response) or Output Place`
-- EP: **Set Post Event Listener** - Value: `Html Event Listener|* (for add response) or Output Place`
-- Eg: **Set Get Event** - Value: `Html Event|# (for current path) or Path|{Output Place}`
-- Eg: **Set Get Event In Form** - Value: `Html Event|{Output Place}`
-- EG: **Set Get Event Listener** - Value: `Html Event Listener|# (for current path) or Path|{Output Place}`
-- EG: **Set Get Event In Form Listener** - Value: `Html Event Listener|{Output Place}`
-- Et: **Set Tag Event** - Value: `Html Event|{Output Place}`
-- ET: **Set Tag Event Listener** - Value: `Html Event Listener|{Output Place}`
-- Ew: **Set WebSocket Event** - Value: `Html Event|Path`
-- EW: **Set WebSocket Event Listener** - Value: `Html Event Listener|Path`
-- Rp: **Remove Post Event** - Value: `Html Event`
-- RP: **Remove Post Event Listener** - Value: `Html Event Listener`
-- Rg: **Remove Get Event** - Value: `Html Event`
-- RG: **Remove Get Event Listener** - Value: `Html Event Listener`
-- Rt: **Remove Tag Event** - Value: `Html Event`
-- RT: **Remove Tag Event Listener** - Value: `Html Event Listener`
-- Rt: **Remove WebSocket Event** - Value: `Html Event`
-- RT: **Remove WebSocket Event Listener** - Value: `Html Event Listener`
-
-### Save
-
-The following items are temporarily stored in session storag.
-
-- @gi: **Save Id** - Value: `Key`
-- @gn: **Save Name** - Value: `Key`
-- @gv: **Save Value** - Value: `Key`
-- @ge: **Save Value Length** - Value: `Key`
-- @gc: **Save Class** - Value: `Key`
-- @gs: **Save Style** - Value: `Key`
-- @gl: **Save Title** - Value: `Key`
-- @gt: **Save Text** - Value: `Key`
-- @go: **Save Outer Text** - Value: `Key`
-- @gg: **Save Text Length** - Value: `Key`
-- @ga: **Save Attribute** - Value: `Key|Attribute`
-- @gw: **Save Width** - Value: `Key`
-- @gh: **Save Height** - Value: `Key`
-- @gr: **Save Read Only** - Value: `Key`
-- @gx: **Save Selected Index** - Value: `Key`
-- @ta: **Save Text Align** - Value: `Key`
-- @nl: **Save Child Nodes Length** - Value: `Key`
-- @vi: **Save Visible** - Value: `Key`
-- @gu: **Save Url** - Value: `Key|Url`
-- @gI: **Save Index** - Value: `Key`
-
-### Cache
-
-The following items are permanently stored in local storag.
-
-- @ci: **Cache Id** - Value: `Key`
-- @cn: **Cache Name** - Value: `Key`
-- @cv: **Cache Value** - Value: `Key`
-- @ce: **Cache Value Length** - Value: `Key`
-- @cc: **Cache Class** - Value: `Key`
-- @cs: **Cache Style** - Value: `Key`
-- @cl: **Cache Title** - Value: `Key`
-- @ct: **Cache Text** - Value: `Key`
-- @co: **Cache Outer Text** - Value: `Key`
-- @cg: **Cache Text Length** - Value: `Key`
-- @ca: **Cache Attribute** - Value: `Key|Attribute`
-- @cw: **Cache Width** - Value: `Key`
-- @ch: **Cache Height** - Value: `Key`
-- @cr: **Cache Read Only** - Value: `Key`
-- @cx: **Cache Selected Index** - Value: `Key`
-- @Ta: **Cache Text Align** - Value: `Key`
-- @Nl: **Cache Child Nodes Length** - Value: `Key`
-- @Vi: **Cache Visible** - Value: `Key`
-- @cu: **Cache Url** - Value: `Key|Url`
-- @cI: **Cache Index** - Value: `Key`
-
-### Fetch
-
-The following values ​​are built-in functions that are placed after the equals character (`=`):
-
-- @_: **Execute Script** - Value: `Script code`
-- @mr: **Random Number** - Value `Max number|Min number`
-- @dy: **Year**
-- @dm: **Month**
-- @dd: **Day**
-- @dh: **Hours**
-- @di: **Minutes**
-- @ds: **Seconds**
-- @dl: **Milliseconds**
-- @co: **Get Cookie** - Value `Key`
-- @cs: **Sessioc Cache** - Value `Key|Replacement value`
-- @cl: **Sessioc Cache Then Delete It** - Value `Key|Replacement value`
-- @cd: **Cache** - Value `Key|Replacement value`
-- @ct: **Cache Then Delete It** - Value `Key|Replacement value`
-- @_: **Script** - Value `Script text`
-- @lu: **Script** - Value `Url`
-- @lL: **Session Cache Line** - Value `Key[{Line} (without this, it reads the first line then deletes it)`
-- @lI: **Session Cache INI** - Value `Key[{INIKey}`
-- @dL: **Cache Line** - Value `Key[{Line} (without this, it reads the first line then deletes it)`
-- @dI: **Cache INI** - Value `Key[{INIKey}`
-- @ek: **Event Key**
-- @ew: **Event Which**
-- @ex: **Event Client X**
-- @ey: **Event Client Y**
-- @eX: **Event Page X**
-- @eY: **Event Page Y**
-- @Ex: **Event Offset X**
-- @Ey: **Event Offset Y**
-
 > Note: Action controls are executed sequentially; if an action control decides to change an `id` attribute from a tag, subsequent action controls cannot perform actions with the previous `id` attribute.
 
 > Note: You can also use negative numbers in all indexes. This makes access to tags or values ​​to be read from the end.
@@ -313,14 +83,6 @@ Example:
 `de<li>-1=1`
 
 In the example above, the last `li` tag is removed.
-
-### Other
-
-- _: **Execute Script** - Value: `Script code`
-- cd: **Cache** - Value: `Cache duration` (Specifies the cache duration in seconds. Inserting the (*) character instead of a numeric value creates a permanent cache.)
-- cs: **Session Cache** - Value: `Cache duration` (Specifies the cache duration in seconds. This cache only works while the browser is active.)
-- rd: **Remove Cache** - Value: `Cache key` (Deletes the cache based on the cache key. Inserting the (*) character instead of a cache name will delete all caches.)
-- rs: **Remove Session Cache** - Value: `Cache key` (Deletes the cache session based on the cache key. Inserting the (*) character instead of a cache name will delete all caches.)
 
 ### Pre Runner
 
@@ -350,18 +112,6 @@ The following items are related to multiple answers:
 
 - #: **Start Index** - Value: `{Name}`
 - &: **Go To** - Value: `Number (Line) or #Index|Repeat`
-
-### Enable
-
-The following items enable and disable some features:
-
-- ew: **Enable WebSocket** - Value: `@ (for enable once) or 1 or 0`
-
-### Use
-
-The following items determine the use of some features:
-
-- uw: **Use WebSocket** - Value: `path`
 
 ## Define the tag
 
@@ -538,6 +288,15 @@ There are three overloads for the `GetBack` method:
 - **`GetBack(event, this)`:** Should be used only in situations where the form tag must be present on the page. If executed inside a form, the action path requests the form, otherwise it requests the path of the first form on the page.
 - **`GetBack(event, "YourURL")`:** Requests the URL path entered as an argument.
 
+The following methods have a similar functionality to `GetBack` but send the request method according to their nature:
+
+- PatchBack
+- DeleteBack
+- HeadBack
+- OptionsBack
+- TraceBack
+- ConnectBack
+
 Calling WebFormJS in HTML pages causes submit buttons to automatically get the onclick attribute with `PostBack(event)` value.
 
 `<input name="btn_Button" type="submit" value="Click to send data" onclick="PostBack(event)"/>`
@@ -559,6 +318,8 @@ Example2:
 The above method puts the data received from the server inside a tag or `MyTagId` id.
 
 > Note: Examples 1 and 2 for the `GetBack` method also have the same function.
+
+`PutBack` method has a similar function to `PostBack` but the method sends the request as per the `PUT` method.
 
 `TagBack` method renders the action control of a web-forms tag.
 
@@ -602,3 +363,4 @@ Example:
 ```
 
 In the above example, the alert is not displayed when the button is clicked.
+
