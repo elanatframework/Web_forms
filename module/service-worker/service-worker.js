@@ -499,4 +499,5 @@ self.addEventListener("notificationclick", event =>
                 clients.openWindow(DEFAULT_NOTIFICATION_URL);
         })
     );
+
 });
