@@ -2831,12 +2831,13 @@ async function cb_RunWebFormsValues(evt, RequestName, WebFormsValues, UsePostBac
                         case 'h': location.href = Value; continue;
 
                         case 'A':
-                            var currentEvent = (Value.GetTextBefore('|') == '1') ? evt : cb_FakeEvent();
-                            var Value = Value.GetTextAfter('|');
-                            var withoutWebFormsSection = (Value.GetTextBefore('|') == '1');
-                            Value = Value.GetTextAfter('|');
-                            var index = Value.GetTextBefore('|') ? '#' + index : "";
-                            var actionControls = Value.GetTextAfter('|');
+                            var tmpValue = Value;
+                            var currentEvent = (tmpValue.GetTextBefore('|') == '1') ? evt : cb_FakeEvent();
+                            tmpValue = tmpValue.GetTextAfter('|');
+                            var withoutWebFormsSection = (tmpValue.GetTextBefore('|') == '1');
+                            tmpValue = tmpValue.GetTextAfter('|');
+                            var index = tmpValue.GetTextBefore('|') ? '#' + index : "";
+                            var actionControls = tmpValue.GetTextAfter('|');
                             
                             cb_SetWebFormsValues(currentEvent, index, actionControls, true, withoutWebFormsSection);
                             continue;
@@ -2871,20 +2872,21 @@ async function cb_RunWebFormsValues(evt, RequestName, WebFormsValues, UsePostBac
                         case 'C': cb_StorageSet(Value.GetTextBefore('|'), Value.GetTextAfter('|')); continue;
                         case 'D': cb_StorageDelete(Value); continue;
                         case 'a':
-                            var key = Value.GetTextBefore('|');
-                            Value = Value.GetTextAfter('|');
+                            var tmpValue = Value;
+                            var key = tmpValue.GetTextBefore('|');
+                            tmpValue = tmpValue.GetTextAfter('|');
                             var formatChar = Value.GetTextBefore('|');
-                            Value = Value.GetTextAfter('|');
+                            tmpValue = tmpValue.GetTextAfter('|');
 
                             switch (formatChar)
                             {
                                 case 'j':
-                                    var value = Value.GetTextBefore('|');
-                                    var path = Value.GetTextAfter('|');
+                                    var value = tmpValue.GetTextBefore('|');
+                                    var path = tmpValue.GetTextAfter('|');
                                     cb_StorageSet(key, cb_AddJSON(cb_StorageGet(key), path, value));
                                     continue;
                                 case 'x':
-                                    var name = Value.GetTextBefore('|').Replace("$[at];", '@');
+                                    var name = tmpValue.GetTextBefore('|').Replace("$[at];", '@');
 
                                     if (name.length > 2)
                                         if (name.substring(0, 2) == "@@")
@@ -2893,90 +2895,93 @@ async function cb_RunWebFormsValues(evt, RequestName, WebFormsValues, UsePostBac
                                             name = '@' + (await cb_SetDynamicForValue(evt, name));
                                         }
 
-                                    Value = Value.GetTextAfter('|');
-                                    var value = Value.GetTextBefore('|');
-                                    var path = Value.GetTextAfter('|');
+                                    tmpValue = tmpValue.GetTextAfter('|');
+                                    var value = tmpValue.GetTextBefore('|');
+                                    var path = tmpValue.GetTextAfter('|');
                                     cb_StorageSet(key, cb_AddXML(cb_StorageGet(key), path, name, value));
                                     continue;
                                 case 'i':
-                                    var isINILike = Value.GetTextBefore('|') == '1';
-                                    Value = Value.GetTextAfter('|');
-                                    var value = Value.GetTextBefore('|');
-                                    var path = Value.GetTextAfter('|');
+                                    var isINILike = tmpValue.GetTextBefore('|') == '1';
+                                    tmpValue = tmpValue.GetTextAfter('|');
+                                    var value = tmpValue.GetTextBefore('|');
+                                    var path = tmpValue.GetTextAfter('|');
                                     cb_StorageSet(key, cb_AddINI(cb_StorageGet(key), path, value, isINILike));
                                     continue;
                                 case 't':
-                                    var text = Value.GetTextBefore('|');
-                                    var line = Value.GetTextAfterLast('|');
+                                    var text = tmpValue.GetTextBefore('|');
+                                    var line = tmpValue.GetTextAfterLast('|');
                                     cb_StorageSet(key, cb_AppendTextLine(cb_StorageGet(key), line, text));
                                     continue;
-                                case 'v': cb_StorageSet(key, Value); continue;
+                                case 'v': cb_StorageSet(key, tmpValue); continue;
                             }
                             break;
                         case 'u':
-                            var key = Value.GetTextBefore('|');
-                            Value = Value.GetTextAfter('|');
-                            var formatChar = Value.GetTextBefore('|');
-                            Value = Value.GetTextAfter('|');
+                            var tmpValue = Value;
+                            var key = tmpValue.GetTextBefore('|');
+                            tmpValue = tmpValue.GetTextAfter('|');
+                            var formatChar = tmpValue.GetTextBefore('|');
+                            tmpValue = tmpValue.GetTextAfter('|');
 
                             switch (formatChar)
                             {
                                 case 'j':
-                                    var value = Value.GetTextBefore('|');
-                                    var path = Value.GetTextAfter('|');
+                                    var value = tmpValue.GetTextBefore('|');
+                                    var path = tmpValue.GetTextAfter('|');
                                     cb_StorageSet(key, cb_SetJSON(cb_StorageGet(key), path, value));
                                     continue;
                                 case 'x':
-                                    var value = Value.GetTextBefore('|');
-                                    var path = Value.GetTextAfter('|');
+                                    var value = tmpValue.GetTextBefore('|');
+                                    var path = tmpValue.GetTextAfter('|');
                                     cb_StorageSet(key, cb_SetXML(cb_StorageGet(key), path, value));
                                     continue;
                                 case 'i':
-                                    var isINILike = Value.GetTextBefore('|') == '1';
-                                    Value = Value.GetTextAfter('|');
-                                    var value = Value.GetTextBefore('|');
-                                    var path = Value.GetTextAfter('|');
+                                    var isINILike = tmpValue.GetTextBefore('|') == '1';
+                                    tmpValue = tmpValue.GetTextAfter('|');
+                                    var value = tmpValue.GetTextBefore('|');
+                                    var path = tmpValue.GetTextAfter('|');
                                     cb_StorageSet(key, cb_UpdateINI(cb_StorageGet(key), path, value, isINILike));
                                     continue;
                                 case 't':
-                                    var text = Value.GetTextBefore('|');
-                                    var line = Value.GetTextAfterLast('|');
+                                    var text = tmpValue.GetTextBefore('|');
+                                    var line = tmpValue.GetTextAfterLast('|');
                                     cb_StorageSet(key, cb_SetTextLine(cb_StorageGet(key), line, text));
                                     continue;
-                                case 'v': cb_StorageSet(key, Value); continue;
+                                case 'v': cb_StorageSet(key, tmpValue); continue;
                             }
                             break;
                         case 'i':
-                            var key = Value.GetTextBefore('|');
-                            Value = Value.GetTextAfter('|');
-                            var formatChar = Value.GetTextBefore('|');
-                            Value = Value.GetTextAfter('|');
+                            var tmpValue = Value;
+                            var key = tmpValue.GetTextBefore('|');
+                            tmpValue = tmpValue.GetTextAfter('|');
+                            var formatChar = tmpValue.GetTextBefore('|');
+                            tmpValue = tmpValue.GetTextAfter('|');
 
                             switch (formatChar)
                             {
                                 case 'v':
-                                    var text = Value.GetTextBefore('|');
-                                    var line = Value.GetTextAfterLast('|');
-                                    cb_StorageSet(key, Number(cb_StorageGet(key)) + Number(Value));
+                                    var text = tmpValue.GetTextBefore('|');
+                                    var line = tmpValue.GetTextAfterLast('|');
+                                    cb_StorageSet(key, Number(cb_StorageGet(key)) + Number(tmpValue));
                                     continue;
                             }
                             break;
                         case 'd':
-                            var key = Value.GetTextBefore('|');
-                            Value = Value.GetTextAfter('|');
-                            var formatChar = (Value.Contains('|') ? Value.GetTextBefore('|') : Value);
-                            Value = Value.GetTextAfter('|');
+                            var tmpValue = Value;
+                            var key = tmpValue.GetTextBefore('|');
+                            tmpValue = tmpValue.GetTextAfter('|');
+                            var formatChar = (tmpValue.Contains('|') ? tmpValue.GetTextBefore('|') : tmpValue);
+                            tmpValue = tmpValue.GetTextAfter('|');
 
                             switch (formatChar)
                             {
-                                case 'j': cb_StorageSet(key, cb_DeleteJSON(cb_StorageGet(key), Value)); continue;
-                                case 'x': cb_StorageSet(key, cb_DeleteXML(cb_StorageGet(key), Value)); continue;
+                                case 'j': cb_StorageSet(key, cb_DeleteJSON(cb_StorageGet(key), tmpValue)); continue;
+                                case 'x': cb_StorageSet(key, cb_DeleteXML(cb_StorageGet(key), tmpValue)); continue;
                                 case 'i':
-                                    var isINILike = Value.GetTextBefore('|') == '1';
-                                    var path = Value.GetTextAfter('|');
+                                    var isINILike = tmpValue.GetTextBefore('|') == '1';
+                                    var path = tmpValue.GetTextAfter('|');
                                     cb_StorageSet(key, cb_DeleteINI(cb_StorageGet(key), path, isINILike));
                                     continue;
-                                case 't': cb_StorageSet(key, cb_DeleteTextLine(cb_StorageGet(key), Value)); continue;
+                                case 't': cb_StorageSet(key, cb_DeleteTextLine(cb_StorageGet(key), tmpValue)); continue;
                                 case 'v': cb_StorageDelete(key); continue;
                             }
                     }
@@ -3333,9 +3338,10 @@ async function cb_RunWebFormsValues(evt, RequestName, WebFormsValues, UsePostBac
                             cb_ShowMessage(text, type, duration);
                             continue;
                         case 'c':
-                            Value = Value.Replace("$[ln];", '\n');
+                            var tmpValue = Value;
+                            tmpValue = tmpValue.Replace("$[ln];", '\n');
                             var type = "log";
-                            var text = Value;
+                            var text = tmpValue;
 
                             if (text.Contains('|'))
                             {
@@ -3353,7 +3359,7 @@ async function cb_RunWebFormsValues(evt, RequestName, WebFormsValues, UsePostBac
                                 case "group": console.group(text); break;
                                 case "groupend": console.groupEnd(text); break;
                                 case "table": console.table(text); break;
-                                default: console.log(Value);
+                                default: console.log(tmpValue);
                             }
                             continue;
                         case 'a':
@@ -3637,15 +3643,16 @@ async function cb_SetValueToInput(evt, ActionOperation, ActionFeature, ActionVal
                             }
                             break;
                         case 't':
-                            Value = Value.Replace("$[ln];", "\n");
-                            if (Value.HasTag())
+                            var tmpValue = Value;
+                            tmpValue = tmpValue.Replace("$[ln];", "\n");
+                            if (tmpValue.HasTag())
                             {
-                                CurrentElement.insertAdjacentHTML("beforeend", cb_RemoveScripts(Value).toDOM());
-                                cb_AppendJavaScriptTag(Value);
+                                CurrentElement.insertAdjacentHTML("beforeend", cb_RemoveScripts(tmpValue).toDOM());
+                                cb_AppendJavaScriptTag(tmpValue);
                                 cb_Initialization(CurrentElement);
                             }
                             else
-                                CurrentElement.insertAdjacentHTML("beforeend", Value);
+                                CurrentElement.insertAdjacentHTML("beforeend", tmpValue);
                             break;
                         case 'a':
                             var AttrName = Value.GetTextBefore('|');
@@ -3839,18 +3846,18 @@ async function cb_SetValueToInput(evt, ActionOperation, ActionFeature, ActionVal
                         case 't':
                             if ((ActionOperation == 'i') && (CurrentElement.innerHTML || CurrentElement.innerText))
                                 break;
-
-                            Value = Value.Replace("$[ln];", "\n");
-                            if (Value.HasTag())
+                            var tmpValue = Value;
+                            tmpValue = tmpValue.Replace("$[ln];", "\n");
+                            if (tmpValue.HasTag())
                             {
 
                                 CurrentElement.replaceChildren();
-                                CurrentElement.insertAdjacentHTML("beforeend", cb_RemoveScripts(Value).toDOM());
-                                cb_AppendJavaScriptTag(Value);
+                                CurrentElement.insertAdjacentHTML("beforeend", cb_RemoveScripts(tmpValue).toDOM());
+                                cb_AppendJavaScriptTag(tmpValue);
                                 cb_Initialization(CurrentElement);
                             }
                             else
-                                CurrentElement.textContent = Value;
+                                CurrentElement.textContent = tmpValue;
                             break;
                         case 'a':
                             var AttrName = Value.GetTextBefore('|');
@@ -4031,16 +4038,17 @@ async function cb_SetValueToInput(evt, ActionOperation, ActionFeature, ActionVal
                     break;
 
                 case 'g':
-                    var action = Value.GetTextBefore('|');
-                    Value = Value.GetTextAfter('|');
+                    var tmpValue = Value;
+                    var action = tmpValue.GetTextBefore('|');
+                    tmpValue = tmpValue.GetTextAfter('|');
                     switch (ActionFeature)
                     {
                         case 't':
                             switch (action)
                             {
-                                case 'i': CurrentElement.textContent = parseFloat(CurrentElement.textContent) + parseFloat(Value); break;
+                                case 'i': CurrentElement.textContent = parseFloat(CurrentElement.textContent) + parseFloat(tmpValue); break;
                                 case 'r':
-                                    var [value, newValue, alsoStartTag, deep] = Value.split('|');
+                                    var [value, newValue, alsoStartTag, deep] = tmpValue.split('|');
                                     deep = (deep == '1');
                                     alsoStartTag = (alsoStartTag == '1');
                                     value = value.Replace("$[at];", '@');
@@ -4058,7 +4066,7 @@ async function cb_SetValueToInput(evt, ActionOperation, ActionFeature, ActionVal
                                     }
                                     break;
                                 case 's':
-                                    var [value, newValue] = Value.split('|');
+                                    var [value, newValue] = tmpValue.split('|');
                                     value = value.Replace("$[at];", '@');
                                     newValue = newValue.Replace("$[at];", '@');
                                     newValue = await cb_SetDynamicForValue(evt, newValue);
@@ -4172,10 +4180,11 @@ async function cb_SetValueToInput(evt, ActionOperation, ActionFeature, ActionVal
                         case 'T': await cb_AddEventListener(CurrentElement, Value.GetTextBefore('|'), TagBack, [Value.GetTextAfter('|')]); break;
                         case 'b':
                         case 'B':
-                            var event = Value.GetTextBefore('|');
-                            Value = Value.GetTextAfter('|');
-                            var index = Value.GetTextBefore('|');
-                            var outputPlace = Value.GetTextAfter('|');
+                            var tmpValue = Value;
+                            var event = tmpValue.GetTextBefore('|');
+                            tmpValue = tmpValue.GetTextAfter('|');
+                            var index = tmpValue.GetTextBefore('|');
+                            var outputPlace = tmpValue.GetTextAfter('|');
                             if (ActionFeature == 'b')
                                 cb_AddEvent(CurrentElement, event, `CommentBack(event, '${index}', '${outputPlace}')`);
                             else
@@ -4183,16 +4192,17 @@ async function cb_SetValueToInput(evt, ActionOperation, ActionFeature, ActionVal
                             break;
                         case 'y':
                         case 'Y':
-                            var event = Value.GetTextBefore('|');
-                            Value = Value.GetTextAfter('|');
-                            var wasmLanguage = Value.GetTextBefore('|');
-                            Value = Value.GetTextAfter('|');
-                            var wasmUrl = Value.GetTextBefore('|');
-                            Value = Value.GetTextAfter('|');
-                            var funcName = Value.GetTextBefore('|');
-                            Value = Value.GetTextAfter('|');
-                            var args = Value.GetTextBefore('|');
-                            outputPlace = Value.GetTextAfter('|');
+                            var tmpValue = Value;
+                            var event = tmpValue.GetTextBefore('|');
+                            tmpValue = tmpValue.GetTextAfter('|');
+                            var wasmLanguage = tmpValue.GetTextBefore('|');
+                            tmpValue = tmpValue.GetTextAfter('|');
+                            var wasmUrl = tmpValue.GetTextBefore('|');
+                            tmpValue = tmpValue.GetTextAfter('|');
+                            var funcName = tmpValue.GetTextBefore('|');
+                            tmpValue = tmpValue.GetTextAfter('|');
+                            var args = tmpValue.GetTextBefore('|');
+                            outputPlace = tmpValue.GetTextAfter('|');
 
                             if (ActionFeature == 'y')
                                 cb_AddEvent(CurrentElement, event, `WasmBack(event, '${wasmLanguage}', '${wasmUrl}', '${funcName}', [${args}], '${outputPlace}')`);
@@ -4203,15 +4213,16 @@ async function cb_SetValueToInput(evt, ActionOperation, ActionFeature, ActionVal
                         case 'W': await cb_AddEventListener(CurrentElement, Value.GetTextBefore('|'), WebSocketBack, [Value.GetTextAfter('|')]); break;
                         case 'e':
                         case 'E':
-                            var htmlEvent = Value.GetTextBefore('|');
-                            Value = Value.GetTextAfter('|');
-                            var path = Value.GetTextBefore('|');
-                            Value = Value.GetTextAfter('|');
-                            var shouldReconnect = Value.GetTextBefore('|') == '1';
-                            Value = Value.GetTextAfter('|');
-                            var reconnectTryTimeout = Value.GetTextBefore('|');
-                            Value = Value.GetTextAfter('|');
-                            var outputPlace = Value;
+                            var tmpValue = Value;
+                            var htmlEvent = tmpValue.GetTextBefore('|');
+                            tmpValue = tmpValue.GetTextAfter('|');
+                            var path = tmpValue.GetTextBefore('|');
+                            tmpValue = tmpValue.GetTextAfter('|');
+                            var shouldReconnect = tmpValue.GetTextBefore('|') == '1';
+                            tmpValue = tmpValue.GetTextAfter('|');
+                            var reconnectTryTimeout = tmpValue.GetTextBefore('|');
+                            tmpValue = tmpValue.GetTextAfter('|');
+                            var outputPlace = tmpValue;
 
                             if (ActionFeature == 'e')
                                 cb_AddEvent(CurrentElement, htmlEvent, `SSEBack(event, '${path}', ${shouldReconnect}, ${reconnectTryTimeout}` + (outputPlace ? ", '" + outputPlace + "')" : ')'));
@@ -4220,10 +4231,11 @@ async function cb_SetValueToInput(evt, ActionOperation, ActionFeature, ActionVal
                             break;
                         case 'j':
                         case 'J':
-                            var htmlEvent = Value.GetTextBefore('|');
-                            Value = Value.GetTextAfter('|');
-                            var modulePath = Value.GetTextBefore('|');
-                            var outputPlace = Value.GetTextAfter('|');
+                            var tmpValue = Value;
+                            var htmlEvent = tmpValue.GetTextBefore('|');
+                            tmpValue = tmpValue.GetTextAfter('|');
+                            var modulePath = tmpValue.GetTextBefore('|');
+                            var outputPlace = tmpValue.GetTextAfter('|');
 
                             var args;
                             var argsString;
@@ -4271,19 +4283,20 @@ async function cb_SetValueToInput(evt, ActionOperation, ActionFeature, ActionVal
                             break;
                         case 'n':
                         case 'N':
-                            var htmlEvent = Value.GetTextBefore('|');
-                            Value = Value.GetTextAfter('|');
-                            var data = Value.GetTextBefore('|');
-                            Value = Value.GetTextAfter('|');
-                            var path = Value.GetTextBefore('|');
-                            Value = Value.GetTextAfter('|');
-                            var method = Value.GetTextBefore('|');
-                            Value = Value.GetTextAfter('|');
-                            var isMultiPart = (Value.GetTextBefore('|') == '1') ? "true" : "false";
-                            Value = Value.GetTextAfter('|');
-                            var contentType = Value.GetTextBefore('|');
-                            Value = Value.GetTextAfter('|');
-                            var outputPlace = Value;
+                            var tmpValue = Value;
+                            var htmlEvent = tmpValue.GetTextBefore('|');
+                            tmpValue = tmpValue.GetTextAfter('|');
+                            var data = tmpValue.GetTextBefore('|');
+                            tmpValue = tmpValue.GetTextAfter('|');
+                            var path = tmpValue.GetTextBefore('|');
+                            tmpValue = tmpValue.GetTextAfter('|');
+                            var method = tmpValue.GetTextBefore('|');
+                            tmpValue = tmpValue.GetTextAfter('|');
+                            var isMultiPart = (tmpValue.GetTextBefore('|') == '1') ? "true" : "false";
+                            tmpValue = tmpValue.GetTextAfter('|');
+                            var contentType = tmpValue.GetTextBefore('|');
+                            tmpValue = tmpValue.GetTextAfter('|');
+                            var outputPlace = tmpValue;
 
                             if (ActionFeature == 'n')
                                 cb_AddEvent(CurrentElement, htmlEvent, `SendBack(event, '${outputPlace}', '${path}', '${method}', ${isMultiPart}, '${contentType}', '${data}')`);
@@ -4439,13 +4452,14 @@ async function cb_SetValueToInput(evt, ActionOperation, ActionFeature, ActionVal
                     switch (ActionFeature)
                     {
                         case 'E':
+                            var tmpValue = Value;
                             let constructorName;
-                            if (Value.Contains('|'))
+                            if (tmpValue.Contains('|'))
                             {
-                                constructorName = Value.GetTextAfter('|');
-                                Value = Value.GetTextBefore('|');
+                                constructorName = tmpValue.GetTextAfter('|');
+                                tmpValue = tmpValue.GetTextBefore('|');
                             }
-                            cb_TriggerEvent(CurrentElement, constructorName, Value);
+                            cb_TriggerEvent(CurrentElement, constructorName, tmpValue);
                     }
                     break;
 
@@ -4565,15 +4579,16 @@ async function cb_SetValueToInput(evt, ActionOperation, ActionFeature, ActionVal
                         CurrentElement.insertAdjacentElement("afterend", document.createElement(Value));
                     break;
                 case "pt":
-                    Value = Value.Replace("$[ln];", "\n");
-                    if (Value.HasTag())
+                    var tmpValue = Value;
+                    tmpValue = tmpValue.Replace("$[ln];", "\n");
+                    if (tmpValue.HasTag())
                     {
-                        CurrentElement.insertAdjacentHTML("afterbegin", Value.toDOM());
-                        cb_AppendJavaScriptTag(cb_RemoveScripts(Value));
+                        CurrentElement.insertAdjacentHTML("afterbegin", tmpValue.toDOM());
+                        cb_AppendJavaScriptTag(cb_RemoveScripts(tmpValue));
                         cb_Initialization(CurrentElement);
                     }
                     else
-                        CurrentElement.insertAdjacentHTML("afterbegin", Value);
+                        CurrentElement.insertAdjacentHTML("afterbegin", tmpValue);
                     break;
                 case "lu": cb_RequestAndResponse(evt, Value, ElementPlace, "GET"); break;
                 case "sp":
@@ -4835,13 +4850,14 @@ async function cb_FetchValue(evt, Value)
                 switch (ActionFeature)
                 {
                     case 'r':
+                        var tmpValue = Value;
                         var MinValue = 0;
-                        if (Value.Contains(','))
+                        if (tmpValue.Contains(','))
                         {
-                            MinValue = Number(Value.GetTextAfter(','));
-                            Value = Value.GetTextBefore(',');
+                            MinValue = Number(tmpValue.GetTextAfter(','));
+                            tmpValue = tmpValue.GetTextBefore(',');
                         }
-                        var MaxValue = Number(Value);
+                        var MaxValue = Number(tmpValue);
                         return Math.floor(Math.random() * (MaxValue - MinValue)) + MinValue;
 
                     case 's': return evt.getModifierState(Value);
@@ -4953,17 +4969,18 @@ async function cb_FetchValue(evt, Value)
                         }
                         return await cb_GetUrl(url, fetchScript);
                     case 'h':
-                        var url = Value.GetTextBefore(',');
-                        var fetchScript = Value.GetTextAfter(',');
-                        Value = Value.GetTextAfter(',');
+                        var tmpValue = Value;
+                        var url = tmpValue.GetTextBefore(',');
+                        var fetchScript = tmpValue.GetTextAfter(',');
+                        tmpValue = tmpValue.GetTextAfter(',');
 
-                        if (Value.Contains(','))
+                        if (tmpValue.Contains(','))
                         {
-                            fetchScript = Value.GetTextBefore(',') == '1';
-                            Value = Value.GetTextAfter(',')
+                            fetchScript = tmpValue.GetTextBefore(',') == '1';
+                            tmpValue = tmpValue.GetTextAfter(',')
                         }
                         var urlData = await cb_GetUrl(url, fetchScript);
-                        return cb_FetchInputPlace(urlData, Value);
+                        return cb_FetchInputPlace(urlData, tmpValue);
                     case 'l':
                         var [url, line] = Value.split(',');
                         var urlData = await cb_GetUrl(url);
@@ -5151,12 +5168,13 @@ async function cb_FetchValue(evt, Value)
                 break;
 
             case '$':
-                var elementPlace = Value;
+                var tmpValue = Value;
+                var elementPlace = tmpValue;
 
                 if (ActionFeature == 'a')
                 {
-                    elementPlace = Value.GetTextBeforeLast(',');
-                    Value = Value.GetTextAfterLast(',');
+                    elementPlace = tmpValue.GetTextBeforeLast(',');
+                    tmpValue = tmpValue.GetTextAfterLast(',');
                 }
 
                 if (!elementPlace)
@@ -5164,7 +5182,7 @@ async function cb_FetchValue(evt, Value)
 
                 var currentElement = cb_GetElement(evt, elementPlace);
 
-                return cb_GetValue(evt, ActionFeature, Value, currentElement);
+                return cb_GetValue(evt, ActionFeature, tmpValue, currentElement);
         }
 
         // Extension
