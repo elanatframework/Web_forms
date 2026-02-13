@@ -1,4 +1,4 @@
-/* WebFormsJS 2.0 - The Front-End Part of WebForms Core Technology, Owned by Elanat (https://elanat.net) */
+/* WebFormsJS 2.0.1 - The Front-End Part of WebForms Core Technology, Owned by Elanat (https://elanat.net) */
 
 /* Start Options */
 
@@ -1758,7 +1758,7 @@ function CommentBack(evt, index, OutputPlace)
     if (index)
         index = '#' + index;
 
-    cb_SetWebFormsCommentsValue(elementPlace, index, true);
+    cb_SetWebFormsCommentsValue(elementPlace, evt, index, true);
 
     cb_HideLoader();
 }
@@ -2519,8 +2519,9 @@ function cb_SetWebFormsTagsValue(obj)
 
 /* Start Web-Forms Comment */
 
-function cb_SetWebFormsCommentsValue(obj, requestName = "", breakDone = false)
+function cb_SetWebFormsCommentsValue(obj, evt, requestName = "", breakDone = false)
 {
+    evt = evt || cb_FakeEvent();
     const root = obj || document;
 
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_COMMENT);
@@ -2528,7 +2529,7 @@ function cb_SetWebFormsCommentsValue(obj, requestName = "", breakDone = false)
 
     while ((node = walker.nextNode()))
     {
-        if (!node.nodeValue.trim().startsWith("[web-forms]"))
+        if (!node.nodeValue.startsWith("[web-forms]"))
             continue;
 
         if (node._done && !breakDone)
@@ -2540,7 +2541,7 @@ function cb_SetWebFormsCommentsValue(obj, requestName = "", breakDone = false)
         if (!rawData)
             continue;
 
-        cb_SetWebFormsValues(document, requestName, rawData.Replace("$[dq];", "\""), true, false);
+        cb_SetWebFormsValues(evt, requestName, rawData.Replace("$[dq];", "\""), true, false);
     }
 }
 
@@ -6500,7 +6501,7 @@ class cb_SPA
     }
 }
 
-cb_SPA.init();
+setTimeout(() => { cb_SPA.init(); }, WebFormsOptions.SPASaveStateDelay);
 
 function cb_SetMainSubmitTypeToButtons(obj)
 {
