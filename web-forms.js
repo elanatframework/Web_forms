@@ -6,6 +6,7 @@ var WebFormsOptions = new Object();
 
 // Initialization
 WebFormsOptions.AutoSetSubmitOnClick = true;
+WebFormsOptions.CheckValidityForFormSubmit = true;
 
 // Service Worker
 WebFormsOptions.RegisterServiceWorker = false;
@@ -1103,6 +1104,18 @@ function cb_PostRequestAndResponse(evt, ViewState, formElement, retryCount = 0, 
         if (resolveCallback)
             resolveCallback();
 
+        return;
+    }
+
+    if (WebFormsOptions.CheckValidityForFormSubmit && !Form.checkValidity())
+    {
+        Form.reportValidity();
+
+        cb_HideLoader();
+
+        if (resolveCallback)
+            resolveCallback();
+        
         return;
     }
 
