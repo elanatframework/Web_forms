@@ -6,7 +6,6 @@ var WebFormsOptions = new Object();
 
 // Initialization
 WebFormsOptions.AutoSetSubmitOnClick = true;
-WebFormsOptions.CheckValidityForFormSubmit = true;
 
 // Service Worker
 WebFormsOptions.RegisterServiceWorker = false;
@@ -20,9 +19,11 @@ WebFormsOptions.ServiceWorkerWaitForControl = 100;
 
 // Send
 WebFormsOptions.SendDataOnlyByPostMethod = false;
+WebFormsOptions.CheckValidityForFormSubmit = true;
 
 // Response
 WebFormsOptions.SetResponseInsideDivTag = true;
+WebFormsOptions.ResponseLocation = "<body>";
 
 // State
 WebFormsOptions.UseSPALink = true;
@@ -139,11 +140,6 @@ WebFormsOptions.MessageWarningStyle = "background-color: #AF4C4C";
 WebFormsOptions.MessageProblemStyle = "background-color: #AFA04C";
 WebFormsOptions.MessageHelpStyle = "background-color: #4C81AF";
 WebFormsOptions.MessageSuccessStyle = "background-color: #4CAF8F";
-
-function cb_GetResponseLocation()
-{
-    return document.body;
-}
 
 /* End Options */
 
@@ -4680,6 +4676,7 @@ function cb_GetElementByElementPlace(ElementPlace, obj, TransientDOM)
 
     return element;
 }
+window.cb_GetElementByElementPlace = cb_GetElementByElementPlace;
 
 function cb_FetchElementByElementPlace(ElementPlace, obj, TransientDOM)
 {
@@ -4818,6 +4815,11 @@ function cb_FetchElementByElementPlace(ElementPlace, obj, TransientDOM)
         if (WebFormsOptions.AddMessageForProblemInDeterminingElement)
             cb_ShowMessage(WebFormsOptions.ProblemInDeterminingElementLang, "problem", WebFormsOptions.MessageDuration);
     }
+}
+
+function cb_GetResponseLocation()
+{
+    return cb_GetElementByElementPlace(WebFormsOptions.ResponseLocation);
 }
 
 async function cb_FetchValue(evt, Value)
