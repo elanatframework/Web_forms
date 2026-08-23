@@ -1,4 +1,4 @@
-﻿/* WebForms Core Technology - Module: Service Worker */
+/* WebForms Core Technology - Module: Service Worker */
 
 const STATIC_ASSETS = ["/index.html", "/assets/styles/main.css", "/assets/scripts/web-forms.js"];
 const STATIC_CACHE = "sw-static-v1";
@@ -203,6 +203,12 @@ self.addEventListener("activate", e =>
 self.addEventListener("fetch", event =>
 {
     const req = event.request;
+	
+    if (req.headers.get("Accept") === "text/event-stream")
+    {
+        event.respondWith(fetch(req));
+        return;
+    }
 
     if (req.method !== "GET" || req.headers.has("Post-Back"))
         return event.respondWith(fetch(req)); // non-GET passthrough
@@ -499,5 +505,4 @@ self.addEventListener("notificationclick", event =>
                 clients.openWindow(DEFAULT_NOTIFICATION_URL);
         })
     );
-
 });
