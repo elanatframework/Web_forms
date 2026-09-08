@@ -24,7 +24,7 @@ To use WebForms Core technology, it is enough to add the WebFormsJS library in t
 
 ## Installation via Package
 
-**JavaScript in npm** (https://www.npmjs.com/package/webformscore)
+**JavaScript in npm** (https://www.npmjs.com/package/webformsjs)
 
 CLI
 ```bash
