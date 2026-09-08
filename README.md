@@ -22,6 +22,15 @@ One of the notable strengths of WebForms Core is its extremely low bandwidth con
 
 To use WebForms Core technology, it is enough to add the WebFormsJS library in the head section of HTML and get the WebForms class associated with the server programming language from the [WebForms class](https://github.com/elanatframework/Web_forms_classes) repository.
 
+## Installation via Package
+
+**JavaScript in npm** (https://www.npmjs.com/package/webformscore)
+
+CLI
+```bash
+npm install webformsjs
+```
+
 ## Action Controls
 
 Action Controls are WebFormsJS received codes that are received in INI format. WebFormsJS automatically detects whether the server response has Action Controls or not. If the server's response is based on the structure of an INI file that starts with `[web-forms]`, it will process the Action Controls, otherwise it will replace the server's response in the form of Ajax on the page.
