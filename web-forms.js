@@ -1,4 +1,4 @@
-/* WebFormsJS 2.1 - The Front-End Part of WebForms Core Technology, Owned by Elanat (https://elanat.net) */
+/* WebFormsJS 2.1.1 - The Front-End Part of WebForms Core Technology, Owned by Elanat (https://elanat.net) */
 
 /* Start Options */
 
@@ -24,7 +24,7 @@ WebFormsOptions.CheckValidityForFormSubmit = true;
 
 // Response
 WebFormsOptions.SetResponseInsideDivTag = true;
-WebFormsOptions.ResponseLocation = "<body>";
+WebFormsOptions.ResponseLocation = "<main>";
 WebFormsOptions.CreateCommentForWebFormsResponse = false;
 
 // Non-Response Management
@@ -866,20 +866,49 @@ function cb_SetSPALink(obj)
     if (!WebFormsOptions.UseSPALink)
         return;
 
-    const links = (obj) ? obj.querySelectorAll('a') : document.body.querySelectorAll('a');
+    const links = obj ? obj.querySelectorAll("a") : document.body.querySelectorAll("a");
 
     links.forEach(link =>
     {
         const targetAttr = link.getAttribute("target");
         let hrefAttr = link.getAttribute("href");
 
-        if (hrefAttr.length > 1)
-            if (hrefAttr.substring(0, 2) == "#~")
-                hrefAttr = hrefAttr.substring(2);
+        if (!hrefAttr)
+            return;
 
-        if (hrefAttr && !hrefAttr.includes("://") && !hrefAttr.startsWith("mailto:") && !hrefAttr.startsWith("tel:") && (!targetAttr || targetAttr === "_self"))
+        if (hrefAttr.length > 1 && hrefAttr.substring(0, 2) == "#~")
+            hrefAttr = hrefAttr.substring(2);
+
+        if (hrefAttr.startsWith("#"))
+        {   
+            if (!WebFormsOptions.IgnoreQueryAndHashInSPALink)
+                link.setAttribute("onclick", `PreventDefault(event);cb_AddHashState('${hrefAttr}');`);
+            return;
+        }
+
+        if (!hrefAttr.includes("://") && !hrefAttr.startsWith("mailto:") && !hrefAttr.startsWith("tel:") && (!targetAttr || targetAttr === "_self"))
             link.setAttribute("onclick", `PreventDefault(event);GetBack(event, '${hrefAttr}');`);
     });
+}
+
+function cb_AddHashState(hrefAttr)
+{
+    window.location.href = hrefAttr;
+    cb_PopstateIsPending = true;
+
+    setTimeout(() =>
+    {
+        try
+        {
+            history.pushState(window.history.state, "", hrefAttr);
+            window.scrollTo(0, 0);
+        }
+        catch
+        {
+            cb_PopstateIsPending = false;
+        }
+        cb_PopstateIsPending = false;
+    }, WebFormsOptions.SPASaveStateDelay);
 }
 
 function cb_TriggerEvent(element, constructorNameOrEvent, eventNameOrOptions, maybeOptions = {})
@@ -6131,26 +6160,50 @@ function cb_ElementPlaceCriteria(element, criteria)
                 break;
             }
 
-            case '[': // Range
+            case '[': // Range / Modulo
             {
-                const range = criteria.GetTextBefore(']');
-                const parts = range.substring(1).split(':');
+                const value = criteria.GetTextBefore(']').substring(1);
 
-                let start = (parts[0] == "") ? 0 : parseInt(parts[0]);
-                let end = (parts[1] == "") ? element.length - 1 : parseInt(parts[1]);
-
-                if (start < 0)
-                    start = element.length + start;
-
-                if (end < 0)
-                    end = element.length + end;
-
-                element = element.filter(function (_, index)
+                // Modulo: [divisor/remainder]
+                if (value.includes('/'))
                 {
-                    const result = index >= start && index <= end;
+                    const parts = value.split('/');
 
-                    return isPositive ? result : !result;
-                });
+                    const divisor = parseInt(parts[0]);
+                    const remainder = parseInt(parts[1]);
+
+                    if (!isNaN(divisor) && !isNaN(remainder) &&
+                        divisor > 0 && remainder >= 0 && remainder < divisor)
+                    {
+                        element = element.filter(function (_, index)
+                        {
+                            const result = index % divisor === remainder;
+
+                            return isPositive ? result : !result;
+                        });
+                    }
+                }
+                // Range: [start:end]
+                else
+                {
+                    const parts = value.split(':');
+
+                    let start = (parts[0] == "") ? 0 : parseInt(parts[0]);
+                    let end = (parts[1] == "") ? element.length - 1 : parseInt(parts[1]);
+
+                    if (start < 0)
+                        start = element.length + start;
+
+                    if (end < 0)
+                        end = element.length + end;
+
+                    element = element.filter(function (_, index)
+                    {
+                        const result = index >= start && index <= end;
+
+                        return isPositive ? result : !result;
+                    });
+                }
 
                 break;
             }
@@ -11849,6 +11902,7 @@ window.cb_ServiceWorker = cb_ServiceWorker;
 window.cb_ShowConfirm = cb_ShowConfirm;
 window.cb_GetMethod = cb_GetMethod;
 window.cb_GetModuleMethod = cb_GetModuleMethod;
+window.cb_AddHashState = cb_AddHashState;
 
 /* End Global Method */
 
