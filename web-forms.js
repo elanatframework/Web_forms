@@ -866,7 +866,7 @@ function cb_SetSPALink(obj)
     if (!WebFormsOptions.UseSPALink)
         return;
 
-    const links = obj ? obj.querySelectorAll("a") : document.body.querySelectorAll("a");
+    const links = obj ? obj.querySelectorAll('a') : document.body.querySelectorAll('a');
 
     links.forEach(link =>
     {
