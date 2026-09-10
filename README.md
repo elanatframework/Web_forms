@@ -13,7 +13,7 @@ WebFormsJS is developed by [**Elanat**](https://elanat.net) as part of the WebFo
 
 **WebForms Core** is a modern architecture inspired by Microsoft’s former Web Forms model, but without its limitations. It delivers significantly higher performance, allowing it to manage all HTML elements efficiently and with minimal overhead.
 
-**What does WebFormsJS do?**
+**What Exactly Is WebFormsJS?**
 
 * Executor
 * DSL Parser
