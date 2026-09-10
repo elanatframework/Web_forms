@@ -139,24 +139,6 @@ Example:
 
 In the above example, the parent of the fifth `p` tag is selected. You can select higher parents by adding multiple slash characters `/`.
 
-## Web-Forms tag
-
-WebFormsJS allows you to create `web-forms` tags on pages. The web-forms tags must have one of the `src` and `ac` attributes or both of them.
-
-The `ac` attribute has the Action Controls value. Action Controls in this tag are separated by `$[sln];` string.
-
-Example:
-
-`<web-forms ac="nt<body>=div|MyDivTag$[sln];shMyDivTag=500px$[sln];swMyDivTag=500px$[sln];2)bci24=violet"></web-forms>`
-
-Note: The value of the `ac` attribute must not contain the double-quote character (`"`), and the string `$[dq];` must be used instead.
-
-The `src` attribute takes the value of a URL path. WebFormsJS calls the URL contained in the src attribute and puts the URL response inside the same web-forms tag. You can also set the `width` and `height` attributes in the web-forms tag.
-
-Example:
-
-`<web-forms src="/page/header.aspx"></web-forms>`
-
 ## Responding
 
 WebFormsJS has a different approach to responding to the first page request in the browser and AJAX requests when the page is already loaded and the user makes a request.
